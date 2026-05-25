@@ -1,0 +1,31 @@
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: #fff;
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    align-items: center;
+    width: 100%; /* Занимает всю ширину */
+    box-sizing: border-box;
+}
+
+.filterItem {
+    min-width: 200px;
+    flex: 1;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+}
+
+@media (max-width: 900px) {
+    .actions {
+        margin-left: 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+}

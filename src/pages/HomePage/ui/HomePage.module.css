@@ -1,0 +1,67 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.hero {
+  padding: 3rem 2rem;
+  background-color: #f0f4f8;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #1a202c;
+}
+
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contentLayout {
+    display: grid;
+    grid-template-columns: 1fr 300px; /* Основной контент + боковая панель алертов */
+    gap: 2rem;
+}
+
+.info {
+  font-weight: bold;
+  color: #4a5568;
+  text-align: center;
+}
+
+.mainChart {
+    min-height: 400px;
+}
+
+.alertsAside {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    /* Фиксируем высоту, чтобы список алертов скроллился отдельно */
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+    .contentLayout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,39 @@
+.header {
+  width: 100%;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 0;
+}
+
+.container {
+  /* Базовый скелет берется из глобальных переменных */
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  width: 100%;
+  box-sizing: border-box;
+  
+  /* Расположение элементов */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.title {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* --- АДАПТИВ --- */
+
+@media (max-width: 768px) {
+  .container {
+    gap: 8px; /* Чуть плотнее на мобилках */
+  }
+  
+  .title {
+    font-size: 1.1rem; /* Компактный заголовок */
+  }
+}

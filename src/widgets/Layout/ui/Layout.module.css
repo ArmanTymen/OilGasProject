@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  /* Используем те же переменные, что в Header и Footer */
+  max-width: var(--container-width);
+  padding: 2rem var(--container-padding);
+  
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  /* Центрирование содержимого страниц */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Адаптив для внутренних отступов контента */
+@media (max-width: 768px) {
+  .main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}

@@ -1,0 +1,1 @@
+export { default as Model2DMap } from './ui/Model2DMap'

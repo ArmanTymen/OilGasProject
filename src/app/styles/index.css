@@ -1,0 +1,29 @@
+/* src/app/styles/index.css */
+:root {
+  --container-width: 1200px;
+  --container-padding: 2rem;
+  --base-font-size: 16px;
+}
+
+@media (max-width: 1024px) { /* Планшеты */
+  :root {
+    --container-padding: 1.5rem;
+    --base-font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) { /* Мобилки */
+  :root {
+    --container-padding: 1rem;
+    --base-font-size: 14px;
+  }
+}
+
+/* Глобальный класс контейнера */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  width: 100%;
+  box-sizing: border-box;
+}
