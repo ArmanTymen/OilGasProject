@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import s from './TableFilters.module.css';
 import ExportButtons from '../ExportButtons/ExportButtons';
-import type { ExtendedWell } from '../../model/useWellData';
+import type { ExtendedWell } from '@widgets/Table/model/useWellData';
 
 interface TableFiltersProps {
   allWells: ExtendedWell[];

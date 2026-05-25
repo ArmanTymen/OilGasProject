@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ROBOTO_FONT_BASE64 } from '@/features/well-export/assets/fonts/roboto-base64';
-import type { ExtendedWell } from '../../model/useWellData';
+import type { ExtendedWell } from '@widgets/Table/model/useWellData';
 import ExcelWorker from '@/features/well-export/lib/excel.worker.ts?worker';
 import PdfWorker from '@/features/well-export/lib/pdf.worker.ts?worker';
 

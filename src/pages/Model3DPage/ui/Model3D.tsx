@@ -10,7 +10,6 @@ const Model3D = () => {
       </header>
 
       <section className={s.canvasContainer}>
-        {/* Сюда позже вставим виджет с Canvas и WellMesh */}
         <div className={s.placeholder}>
           <WellVisualizer />
           <span>Инициализация WebGL...</span>

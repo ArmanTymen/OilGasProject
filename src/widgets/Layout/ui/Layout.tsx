@@ -9,7 +9,6 @@ export const Layout = () => {
       <Header />
 
       <main className={s.main}>
-        {/* Все страницы внутри Outlet теперь будут центрированы */}
         <Outlet />
       </main>
 

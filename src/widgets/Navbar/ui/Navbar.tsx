@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import s from './NavBar.module.css';
 
 function NavBar() {
-  // В будущем сюда можно прокинуть ID выбранной скважины из стора
   const selectedWellId = 1;
 
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -20,7 +19,6 @@ function NavBar() {
         График
       </NavLink>
 
-      {/* Исправленный путь: подставляем реальный ID или не рендерим ссылку */}
       <NavLink title="3D Визуализация" to={`/model/${selectedWellId}`} className={getLinkClass}>
         3D Модель
       </NavLink>

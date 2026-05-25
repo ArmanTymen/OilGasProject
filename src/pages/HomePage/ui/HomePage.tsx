@@ -9,7 +9,6 @@ const HomePage = () => {
         <p>Оперативная сводка по состоянию фонда скважин</p>
       </header>
 
-      {/* 1. Сводные показатели (KPI) */}
       <section className={s.dashboardGrid}>
         {[1, 2, 3].map((i) => (
           <Paper key={i} sx={{ p: 3, borderLeft: '5px solid #ccc' }}>
@@ -26,7 +25,6 @@ const HomePage = () => {
       </section>
 
       <div className={s.contentLayout}>
-        {/* 2. Основной график или Карта */}
         <section className={s.mainChart}>
           <Paper
             sx={{
@@ -50,7 +48,6 @@ const HomePage = () => {
           </Paper>
         </section>
 
-        {/* 3. Список последних событий (Log) */}
         <aside className={s.alertsAside}>
           <Typography variant="h6" gutterBottom>
             Последние алерты
