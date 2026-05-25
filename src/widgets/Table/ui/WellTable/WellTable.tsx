@@ -10,10 +10,10 @@ import {
   TableBody,
 } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { WellRow } from '../WellRow/WellRow';
 import s from './WellTable.module.css';
-import TableFilters from '../TableFilters/TableFilters';
-import { useWellData } from '../../model/useWellData';
+import { useWellData } from '@widgets/Table/model/useWellData';
+import TableFilters from '@widgets/Table/ui/TableFilters/TableFilters';
+import { WellRow } from '@widgets/Table/ui/WellRow/WellRow';
 
 function WellTable(): ReactElement {
   'use no memo';

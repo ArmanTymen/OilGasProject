@@ -2,8 +2,8 @@ import { Button, CircularProgress } from '@mui/material';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import DownloadIcon from '@mui/icons-material/Download';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { useExportActions } from './useExportActions';
-import type { ExtendedWell } from '../../model/useWellData';
+import type { ExtendedWell } from '@widgets/Table/model/useWellData';
+import { useExportActions } from '../../model/useExportActions';
 
 interface ExportButtonsProps {
   filteredWells: ExtendedWell[];
@@ -12,12 +12,12 @@ interface ExportButtonsProps {
   setFilterWell: (e: string) => void;
 }
 
-function ExportButtons({
+export const ExportButtons = ({
   filteredWells,
   setFilterField,
   setFilterCluster,
   setFilterWell,
-}: ExportButtonsProps) {
+}: ExportButtonsProps) => {
   const { exportExcel, exportPdf, isExportingExcel, isExportingPdf, isAnyTaskRunning } =
     useExportActions(filteredWells);
 
@@ -66,6 +66,4 @@ function ExportButtons({
       </Button>
     </>
   );
-}
-
-export default ExportButtons;
+};

@@ -1,5 +1,5 @@
+import { wellApi } from '@/entities/well/api/wellApi';
 import { configureStore } from '@reduxjs/toolkit';
-import { wellApi } from '../entities/well/api/wellApi';
 
 export const store = configureStore({
   reducer: {

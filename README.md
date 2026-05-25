@@ -1,9 +1,63 @@
-https://github.com/ArmanTymen/OilGasProject.git
+# OilGasProject
 
-echo "# OilGasProject" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/ArmanTymen/OilGasProject.git
-git push -u origin main
+Дашборд для мониторинга добычи нефти и газа в реальном времени.
+Включает 3D‑визуализацию скважин, интерактивные графики, таблицу с фильтрацией и виртуализацией,
+а также экспорт данных в Excel и PDF.
+
+## Технологический стек
+
+- **Язык:** TypeScript
+- **Фреймворк:** React 19
+- **Стейт-менеджмент:** Redux Toolkit, RTK Query
+- **3D‑визуализация:** Three.js, React Three Fiber
+- **2D‑визуализация:** PixiJS
+- **Графики:** Chart.js, react-chartjs-2
+- **Таблица:** TanStack Virtualizer, Material-UI
+- **Сборка:** Vite
+- **Тестирование:** Vitest (опционально)
+- **Качество кода:** ESLint, Prettier, Husky, lint-staged
+- **CI/CD:** GitHub Actions
+
+## Архитектура
+
+Проект построен по методологии **Feature‑Sliced Design (FSD)**.
+Основные слои:
+
+- `app/` – точка входа, роутинг, глобальные стили, Redux-стор
+- `pages/` – страницы приложения
+- `widgets/` – крупные UI‑блоки: таблица, график, 3D‑визуализатор, 2D‑карта
+- `features/` – бизнес‑фичи (экспорт в Excel/PDF, авторизация)
+- `entities/` – бизнес‑сущности (скважина, пользователь)
+- `shared/` – переиспользуемые модули: UI‑компоненты, API‑клиент, типы, утилиты
+
+## Основные возможности
+
+- **3D‑визуализатор стволов скважин** с наложенными данными телеметрии
+- **График добычи** с обновлением в реальном времени (Chart.js + WebSocket)
+- **Таблица на 500+ скважин** с фильтрацией, сортировкой, поиском и виртуализацией
+- **2D‑карта месторождения** (PixiJS Blueprint)
+- **Экспорт данных** в Excel и PDF через Web Workers
+- **Адаптивный интерфейс** (Material‑UI)
+
+## Качество кода
+
+- **ESLint** – статический анализ кода
+- **Prettier** – автоматическое форматирование
+- **Husky** – запуск линтеров перед коммитом
+- **lint-staged** – проверка только изменённых файлов
+- **GitHub Actions** – автоматическая проверка типов, линтинг и сборка при пуше в `main` и `dev`
+
+## Быстрый старт
+
+```bash
+# Установка зависимостей
+npm install
+
+# Запуск в режиме разработки
+npm run dev
+
+# Сборка для production
+npm run build
+
+# Превью production‑сборки
+npm run preview
