@@ -28,7 +28,7 @@ export const wellApi = createApi({
   endpoints: (builder) => ({
     getWellStream: builder.query<WellData[], string>({
       query: () => `/fields`,
-      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+      async onCacheEntryAdded(_arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
         const socket: Socket = io(`http://localhost:3001`);
         try {
           await cacheDataLoaded;
@@ -50,7 +50,7 @@ export const wellApi = createApi({
     getAnalytics: builder.query<ProductionAnalytics, void>({
       query: () => '/fields',
       transformResponse: (response: WellData[]) => calculateProduction(response),
-      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+      async onCacheEntryAdded(_arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
         const socket: Socket = io(`http://localhost:3001`);
         try {
           await cacheDataLoaded;
@@ -74,7 +74,7 @@ export const wellApi = createApi({
     }),
     getDepthStream: builder.query<DepthData[], void>({
       query: () => `/depths`,
-      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+      async onCacheEntryAdded(_arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
         const socket: Socket = io(`http://localhost:3001`);
         try {
           await cacheDataLoaded;
