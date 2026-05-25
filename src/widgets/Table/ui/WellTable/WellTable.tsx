@@ -64,15 +64,15 @@ function WellTable(): ReactElement {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell className={s.headerCell}>Месторождение</TableCell>
+              <TableCell className={s.headerCell}>Мест.</TableCell>
               <TableCell className={s.headerCell}>Куст</TableCell>
               <TableCell className={s.headerCell}>Скважина</TableCell>
               <TableCell className={s.headerCell}>Ток</TableCell>
-              <TableCell className={s.headerCell}>Напряжение</TableCell>
+              <TableCell className={s.headerCell}>Напр.</TableCell>
               <TableCell className={s.headerCell}>Давление</TableCell>
-              <TableCell className={s.headerCell}>Температура</TableCell>
+              <TableCell className={s.headerCell}>Темп.</TableCell>
               <TableCell className={s.headerCell}>Дебит</TableCell>
-              <TableCell className={s.headerCell}>Скорость потока</TableCell>
+              <TableCell className={s.headerCell}>Расход</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
