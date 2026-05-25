@@ -6,7 +6,7 @@
 }
 
 .hero {
-  padding: 3rem 2rem;
+  padding: 0.5rem 1rem 1rem;
   background-color: #f0f4f8;
   border-radius: 12px;
   text-align: center;
@@ -14,13 +14,14 @@
 
 .hero h1 {
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
   color: #1a202c;
 }
 
 .contentLayout {
   display: grid;
-  grid-template-columns: 1fr 300px; /* Основной контент + боковая панель алертов */
+  grid-template-columns: 1fr 300px;
   gap: 2rem;
 }
 
