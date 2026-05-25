@@ -21,7 +21,7 @@
     "@react-three/fiber": "^9.5.0",
     "@reduxjs/toolkit": "^2.11.2",
     "@tanstack/react-table": "^8.21.3",
-    "@tanstack/react-virtual": "^3.13.18",
+    "@tanstack/react-virtual": "^3.13.25",
     "@types/three": "^0.182.0",
     "chart.js": "^4.5.1",
     "jspdf": "^4.1.0",
@@ -54,12 +54,12 @@
     "vite": "^7.2.4"
   },
   "lint-staged": {
-  "*.{ts,tsx}": [
-    "eslint --fix",
-    "prettier --write"
-  ],
-  "*.{css,md}": [
-    "prettier --write"
-  ]
-}
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,md}": [
+      "prettier --write"
+    ]
+  }
 }
