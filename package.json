@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -58,7 +59,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{css,md}": [
+    "*.{css,md,yml,json,html}": [
       "prettier --write"
     ]
   }

@@ -1,0 +1,13 @@
+.alertsAside {
+  margin: 0;
+}
+
+.alertItem {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.alertItem:hover {
+  background: #f9f9f9;
+}
