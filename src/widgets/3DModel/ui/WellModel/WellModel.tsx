@@ -25,7 +25,13 @@ export const WellModel = ({ points }: WellModelProps) => {
 
       <mesh position={[0, -5, 0]}>
         <cylinderGeometry args={[6, 6, 1.5, 32]} />
-        <meshStandardMaterial color="#222" transparent opacity={0.3} side={THREE.DoubleSide} depthWrite={false} />
+        <meshStandardMaterial
+          color="#222"
+          transparent
+          opacity={0.3}
+          side={THREE.DoubleSide}
+          depthWrite={false}
+        />
       </mesh>
     </group>
   );

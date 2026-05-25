@@ -50,7 +50,7 @@
   .canvasContainer {
     height: 50vh; /* Уменьшаем высоту на телефонах */
   }
-  
+
   .title {
     font-size: 1.2rem;
   }

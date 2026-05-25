@@ -4,18 +4,21 @@ import { useMemo, useState } from 'react';
 type RawWellFromData = WellData['clusters'][number]['wells'][number];
 
 export interface ExtendedWell extends RawWellFromData {
-    fieldName: string;
-    clusterName: string;
+  fieldName: string;
+  clusterName: string;
 }
 
 export const useWellData = (data: WellData[] | undefined) => {
-    const [filterField, setFilterField] = useState('')
-    const [filterCluster, setFilterCluster] = useState('')
-    const [filterWell, setFilterWell] = useState('')
-    const allWells = useMemo((): ExtendedWell[] => {
-        return data?.flatMap(f => f.clusters.flatMap(c => c.wells.map(w => ({
-            ...w, 
-            fieldName: f.field, 
+  const [filterField, setFilterField] = useState('');
+  const [filterCluster, setFilterCluster] = useState('');
+  const [filterWell, setFilterWell] = useState('');
+  const allWells = useMemo((): ExtendedWell[] => {
+    return (
+      data?.flatMap((f) =>
+        f.clusters.flatMap((c) =>
+          c.wells.map((w) => ({
+            ...w,
+            fieldName: f.field,
             clusterName: c.cluster,
             pressure: Number(w.pressure.toFixed(2)),
             temperature: Number(w.temperature.toFixed(2)),
@@ -23,16 +26,29 @@ export const useWellData = (data: WellData[] | undefined) => {
             debit: Number(w.debit.toFixed(2)),
             I: Number(w.I.toFixed(2)),
             U: Number(w.U.toFixed(2)),
-        })))) || []
-    }, [data])
+          })),
+        ),
+      ) || []
+    );
+  }, [data]);
 
-    const filteredWells = useMemo(() => {
-        return allWells.filter(well => (
-            (filterField === '' || well.fieldName === filterField) &&
-            (filterCluster === '' || well.clusterName === filterCluster) &&
-            (filterWell === '' || well.well.toLowerCase().includes(filterWell.toLowerCase()))
-        ))
-    }, [allWells, filterField, filterCluster, filterWell])
+  const filteredWells = useMemo(() => {
+    return allWells.filter(
+      (well) =>
+        (filterField === '' || well.fieldName === filterField) &&
+        (filterCluster === '' || well.clusterName === filterCluster) &&
+        (filterWell === '' || well.well.toLowerCase().includes(filterWell.toLowerCase())),
+    );
+  }, [allWells, filterField, filterCluster, filterWell]);
 
-    return { allWells, filteredWells, setFilterField, setFilterCluster, setFilterWell, filterField, filterCluster, filterWell };
+  return {
+    allWells,
+    filteredWells,
+    setFilterField,
+    setFilterCluster,
+    setFilterWell,
+    filterField,
+    filterCluster,
+    filterWell,
+  };
 };

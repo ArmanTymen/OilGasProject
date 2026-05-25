@@ -1,5 +1,5 @@
-import { WellVisualizer } from "@/widgets/3DModel";
-import s from "./Model3D.module.css";
+import { WellVisualizer } from '@/widgets/3DModel';
+import s from './Model3D.module.css';
 
 const Model3D = () => {
   return (
@@ -12,7 +12,7 @@ const Model3D = () => {
       <section className={s.canvasContainer}>
         {/* Сюда позже вставим виджет с Canvas и WellMesh */}
         <div className={s.placeholder}>
-          <WellVisualizer/>
+          <WellVisualizer />
           <span>Инициализация WebGL...</span>
         </div>
       </section>

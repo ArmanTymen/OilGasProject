@@ -40,7 +40,9 @@
   border-radius: 8px;
   text-align: center;
   border: 1px solid #555;
-  transition: transform 0.2s, background 0.2s;
+  transition:
+    transform 0.2s,
+    background 0.2s;
 }
 
 .wellCard:hover {

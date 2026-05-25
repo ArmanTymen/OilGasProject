@@ -1,5 +1,5 @@
-import { WellTable } from "@/widgets/Table";
-import s from "./TablePage.module.css";
+import { WellTable } from '@/widgets/Table';
+import s from './TablePage.module.css';
 
 const TablePage = () => {
   return (

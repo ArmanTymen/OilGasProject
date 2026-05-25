@@ -14,7 +14,7 @@ function AppRouter() {
           <Route index element={<HomePage />} />
           <Route path="table" element={<TablePage />} />
           <Route path="analytics" element={<ChartPage />} />
-          <Route path="field-map" element={<Model2DMap />} /> 
+          <Route path="field-map" element={<Model2DMap />} />
           <Route path="model/:wellId" element={<Model3D />} />
           {/* Обработка 404 — можно создать отдельную страницу позже */}
           <Route path="*" element={<div>Страница не найдена</div>} />
@@ -24,4 +24,4 @@ function AppRouter() {
   );
 }
 
-export default AppRouter
+export default AppRouter;

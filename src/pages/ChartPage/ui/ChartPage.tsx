@@ -1,5 +1,5 @@
-import { ProductionChart } from "@/widgets/Chart";
-import s from "./ChartPage.module.css";
+import { ProductionChart } from '@/widgets/Chart';
+import s from './ChartPage.module.css';
 
 const ChartPage = () => {
   return (

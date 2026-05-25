@@ -9,7 +9,7 @@
   /* Используем те же переменные, что в Header и Footer */
   max-width: var(--container-width);
   padding: 2rem var(--container-padding);
-  
+
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;

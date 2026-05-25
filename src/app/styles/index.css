@@ -5,14 +5,16 @@
   --base-font-size: 16px;
 }
 
-@media (max-width: 1024px) { /* Планшеты */
+@media (max-width: 1024px) {
+  /* Планшеты */
   :root {
     --container-padding: 1.5rem;
     --base-font-size: 15px;
   }
 }
 
-@media (max-width: 768px) { /* Мобилки */
+@media (max-width: 768px) {
+  /* Мобилки */
   :root {
     --container-padding: 1rem;
     --base-font-size: 14px;

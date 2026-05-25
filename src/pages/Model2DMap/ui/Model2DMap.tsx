@@ -1,5 +1,5 @@
-import { FieldMap2D } from "@/widgets/Field2DMap";
-import s from "./Model2DMap.module.css";
+import { FieldMap2D } from '@/widgets/Field2DMap';
+import s from './Model2DMap.module.css';
 
 const Model2DMap = () => {
   return (

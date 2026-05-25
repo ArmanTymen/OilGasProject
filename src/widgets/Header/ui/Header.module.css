@@ -12,7 +12,7 @@
   padding: 0 var(--container-padding);
   width: 100%;
   box-sizing: border-box;
-  
+
   /* Расположение элементов */
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@
   .container {
     gap: 8px; /* Чуть плотнее на мобилках */
   }
-  
+
   .title {
     font-size: 1.1rem; /* Компактный заголовок */
   }

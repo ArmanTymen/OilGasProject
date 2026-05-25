@@ -1,70 +1,70 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    /* Убедись, что родитель .root имеет высоту, либо используй vh */
-    height: calc(100vh - 150px); 
-    min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Убедись, что родитель .root имеет высоту, либо используй vh */
+  height: calc(100vh - 150px);
+  min-height: 500px;
 }
 
 .tableContainer {
-    flex: 1;
-    overflow: auto;
-    position: relative;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    /* Критично для виртуализации во Flexbox: */
-    min-height: 0; 
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Критично для виртуализации во Flexbox: */
+  min-height: 0;
 }
 
 .headerCell {
-    background-color: #f1f3f5 !important;
-    font-weight: 700 !important;
-    color: #495057 !important;
-    white-space: nowrap;
-    /* MUI stickyHeader работает через эти свойства: */
-    position: sticky;
-    top: 0;
-    z-index: 2;
+  background-color: #f1f3f5 !important;
+  font-weight: 700 !important;
+  color: #495057 !important;
+  white-space: nowrap;
+  /* MUI stickyHeader работает через эти свойства: */
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .spacerRow {
-    border: none !important;
+  border: none !important;
 }
 
 .spacerCell {
-    padding: 0 !important;
-    border: none !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 /* Оптимизация для мобильных устройств */
 @media (max-width: 900px) {
-    .root {
-        height: auto;
-        min-height: 100vh;
-    }
-    
-    .tableContainer {
-        height: 600px; /* Фиксируем высоту, если экран маленький */
-    }
+  .root {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .tableContainer {
+    height: 600px; /* Фиксируем высоту, если экран маленький */
+  }
 }
 
 /* Кастомный скроллбар */
 .tableContainer::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
 }
 
 .tableContainer::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 .tableContainer::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
+  background: #ccc;
+  border-radius: 4px;
 }
 
 .tableContainer::-webkit-scrollbar-thumb:hover {
-    background: #abb2b9;
+  background: #abb2b9;
 }

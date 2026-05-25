@@ -19,16 +19,16 @@
 }
 
 .dashboardGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .contentLayout {
-    display: grid;
-    grid-template-columns: 1fr 300px; /* Основной контент + боковая панель алертов */
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 300px; /* Основной контент + боковая панель алертов */
+  gap: 2rem;
 }
 
 .info {
@@ -38,23 +38,23 @@
 }
 
 .mainChart {
-    min-height: 400px;
+  min-height: 400px;
 }
 
 .alertsAside {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    /* Фиксируем высоту, чтобы список алертов скроллился отдельно */
-    max-height: 600px;
-    overflow-y: auto;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* Фиксируем высоту, чтобы список алертов скроллился отдельно */
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 @media (max-width: 1024px) {
-    .contentLayout {
-        grid-template-columns: 1fr;
-    }
+  .contentLayout {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {

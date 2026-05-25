@@ -1,1 +1,1 @@
-export { WellVisualizer } from './ui/WellVisualizer'
+export { WellVisualizer } from './ui/WellVisualizer';

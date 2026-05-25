@@ -6,53 +6,66 @@ import { useExportActions } from './useExportActions';
 import type { ExtendedWell } from '../../model/useWellData';
 
 interface ExportButtonsProps {
-    filteredWells: ExtendedWell[];
-    setFilterField: (e: string) => void;
-    setFilterCluster: (e: string) => void;
-    setFilterWell: (e: string) => void;
+  filteredWells: ExtendedWell[];
+  setFilterField: (e: string) => void;
+  setFilterCluster: (e: string) => void;
+  setFilterWell: (e: string) => void;
 }
 
-function ExportButtons({ filteredWells, setFilterField, setFilterCluster, setFilterWell }: ExportButtonsProps) {
-    const { 
-        exportExcel, exportPdf, isExportingExcel, isExportingPdf, isAnyTaskRunning 
-    } = useExportActions(filteredWells);
+function ExportButtons({
+  filteredWells,
+  setFilterField,
+  setFilterCluster,
+  setFilterWell,
+}: ExportButtonsProps) {
+  const { exportExcel, exportPdf, isExportingExcel, isExportingPdf, isAnyTaskRunning } =
+    useExportActions(filteredWells);
 
-    const handleReset = () => {
-        setFilterField('');
-        setFilterCluster('');
-        setFilterWell('');
-    };
+  const handleReset = () => {
+    setFilterField('');
+    setFilterCluster('');
+    setFilterWell('');
+  };
 
-    return (
-        <>
-            <Button 
-                variant="outlined" color="secondary" 
-                startIcon={<RestartAltIcon />} 
-                onClick={handleReset} 
-                disabled={isAnyTaskRunning}
-            >
-                Сбросить
-            </Button>
+  return (
+    <>
+      <Button
+        variant="outlined"
+        color="secondary"
+        startIcon={<RestartAltIcon />}
+        onClick={handleReset}
+        disabled={isAnyTaskRunning}
+      >
+        Сбросить
+      </Button>
 
-            <Button 
-                variant="contained" color="primary" sx={{ ml: 1 }}
-                startIcon={isExportingExcel ? <CircularProgress size={20} color="inherit" /> : <DownloadIcon />}
-                onClick={exportExcel}
-                disabled={isAnyTaskRunning}
-            >
-                {isExportingExcel ? 'Генерация...' : 'Excel'}
-            </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ ml: 1 }}
+        startIcon={
+          isExportingExcel ? <CircularProgress size={20} color="inherit" /> : <DownloadIcon />
+        }
+        onClick={exportExcel}
+        disabled={isAnyTaskRunning}
+      >
+        {isExportingExcel ? 'Генерация...' : 'Excel'}
+      </Button>
 
-            <Button 
-                variant="contained" color="error" sx={{ ml: 1 }}
-                startIcon={isExportingPdf ? <CircularProgress size={20} color="inherit" /> : <PictureAsPdfIcon />}
-                onClick={exportPdf}
-                disabled={isAnyTaskRunning}
-            >
-                {isExportingPdf ? 'Генерация...' : 'PDF'}
-            </Button>
-        </>
-    );
+      <Button
+        variant="contained"
+        color="error"
+        sx={{ ml: 1 }}
+        startIcon={
+          isExportingPdf ? <CircularProgress size={20} color="inherit" /> : <PictureAsPdfIcon />
+        }
+        onClick={exportPdf}
+        disabled={isAnyTaskRunning}
+      >
+        {isExportingPdf ? 'Генерация...' : 'PDF'}
+      </Button>
+    </>
+  );
 }
 
 export default ExportButtons;
