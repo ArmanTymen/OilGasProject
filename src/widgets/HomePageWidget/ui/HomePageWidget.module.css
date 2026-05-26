@@ -1,0 +1,41 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.hero {
+  padding: 0.5rem 1rem 1rem;
+  background-color: #f0f4f8;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #1a202c;
+}
+
+.contentLayout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .contentLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+}
