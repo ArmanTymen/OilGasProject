@@ -1,0 +1,40 @@
+.root {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chartWrapper {
+  position: relative;
+  height: 380px; /* Фиксированная высота, ширина подстроится под .root (100%) */
+  width: 100%;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 380px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.error {
+  color: #dc2626;
+  background-color: #fef2f2;
+  border-color: #f87171;
+}
+
+.chartWrapper canvas:active {
+  cursor: grabbing;
+}

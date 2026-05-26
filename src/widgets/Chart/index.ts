@@ -1,1 +1,1 @@
-export { ProductionChart } from './ui/ProductionChart';
+export { ChartPageWidget } from './ui/ChartPageWidget';
