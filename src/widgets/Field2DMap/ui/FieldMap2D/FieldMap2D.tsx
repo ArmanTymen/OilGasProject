@@ -1,18 +1,24 @@
 import { useState } from 'react';
-import { useGetWellDataQuery } from '@/entities/well/api/wellApi';
-import { useNavigate } from 'react-router-dom';
+import { ReactFlow, Background, Controls } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+import { useFieldMapData } from '../../model/useFieldMapData';
+import { AGZNode } from '../AGZNode/AGZNode';
 import s from './FieldMap2D.module.css';
+import '@xyflow/react/dist/style.css';
+import { FANode } from '../FANode/FANode';
+import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
+import { FADetailModal } from '../FADetailModal/FADetailModal';
 
 export const FieldMap2D = () => {
-  const { data, isLoading } = useGetWellDataQuery();
+  const { data, isLoading } = useGetWellStreamQuery('');
   const [selectedFieldId, setSelectedFieldId] = useState<number | null>(null);
   const [selectedClusterId, setSelectedClusterId] = useState<number | null>(null);
-  const navigate = useNavigate();
-
-  if (isLoading) return <div className={s.loader}>Загрузка данных...</div>;
 
   const selectedField = data?.find((f) => f.id === selectedFieldId);
   const selectedCluster = selectedField?.clusters.find((c) => c.id === selectedClusterId);
+  const { nodes, edges } = useFieldMapData(selectedCluster);
+
+  if (isLoading) return <div className={s.loader}>Загрузка данных...</div>;
 
   return (
     <div className={s.root}>
@@ -50,16 +56,25 @@ export const FieldMap2D = () => {
         {!selectedClusterId && (
           <p className={s.placeholder}>Выберите куст, чтобы увидеть скважины</p>
         )}
-
-        {selectedCluster?.wells.map((well) => (
-          <div key={well.id} className={s.wellCard} onClick={() => navigate(`/model/${well.well}`)}>
-            <strong>{well.well}</strong>
-            <div className={s.wellInfo}>
-              P: {well.pressure} | T: {well.temperature}
-            </div>
-          </div>
-        ))}
+        {selectedCluster && (
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={{ agz: AGZNode, fa: FANode }}
+            fitView
+            minZoom={1}
+            maxZoom={2}
+            translateExtent={[
+              [-500, -200],
+              [900, 800],
+            ]}
+          >
+            <Background />
+            <Controls />
+          </ReactFlow>
+        )}
       </div>
+      <FADetailModal />
     </div>
   );
 };
