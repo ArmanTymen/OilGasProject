@@ -23,23 +23,16 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
         justifyContent: 'center',
       }}
     >
-      {/* Графическое представление АГЗУ через точный SVG */}
       <svg width="300" height="160" viewBox="0 0 300 160" style={{ overflow: 'visible' }}>
-        {/* 1. Монтажные проушины (петли) по углам */}
-        {/* Топ-лево */}
         <circle cx="65" cy="25" r="7" fill="#1a5cb8" stroke="#113875" strokeWidth="1.5" />
         <circle cx="65" cy="25" r="3" fill="#ffffff" />
-        {/* Топ-право */}
         <circle cx="235" cy="25" r="7" fill="#1a5cb8" stroke="#113875" strokeWidth="1.5" />
         <circle cx="235" cy="25" r="3" fill="#ffffff" />
-        {/* Боттом-лево */}
         <circle cx="65" cy="135" r="7" fill="#1a5cb8" stroke="#113875" strokeWidth="1.5" />
         <circle cx="65" cy="135" r="3" fill="#ffffff" />
-        {/* Боттом-право */}
         <circle cx="235" cy="135" r="7" fill="#1a5cb8" stroke="#113875" strokeWidth="1.5" />
         <circle cx="235" cy="135" r="3" fill="#ffffff" />
 
-        {/* 2. Левый выносной блок управления/питания */}
         <rect
           x="52"
           y="75"
@@ -59,13 +52,11 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
           stroke="#27272a"
           strokeWidth="2"
         />
-        {/* Болты на блоке управления */}
         <circle cx="26" cy="59" r="1.5" fill="#27272a" />
         <circle cx="48" cy="59" r="1.5" fill="#27272a" />
         <circle cx="26" cy="101" r="1.5" fill="#27272a" />
         <circle cx="48" cy="101" r="1.5" fill="#27272a" />
 
-        {/* 3. Петли/пробки на левом торце основного корпуса */}
         <rect
           x="59"
           y="45"
@@ -87,7 +78,6 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
           strokeWidth="1"
         />
 
-        {/* 4. Основной корпус АГЗУ */}
         <rect
           x="65"
           y="25"
@@ -98,7 +88,6 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
           stroke="#113875"
           strokeWidth="2.5"
         />
-        {/* Внутренний декоративный контур */}
         <rect
           x="69"
           y="29"
@@ -111,7 +100,6 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
           opacity="0.6"
         />
 
-        {/* 5. Центральная табличка с надписью */}
         <rect
           x="120"
           y="55"
@@ -122,12 +110,10 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
           stroke="#0f3470"
           strokeWidth="1.5"
         />
-        {/* Заклепки таблицы */}
         <circle cx="124" cy="59" r="1.2" fill="#0f3470" />
         <circle cx="176" cy="59" r="1.2" fill="#0f3470" />
         <circle cx="124" cy="101" r="1.2" fill="#0f3470" />
         <circle cx="176" cy="101" r="1.2" fill="#0f3470" />
-        {/* Текст */}
         <text
           x="150"
           y="85"
@@ -140,10 +126,8 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
           АГЗУ
         </text>
 
-        {/* 6. Манифольд на правом торце (6 выходов с кранами) */}
         {PORT_Y_COORDINATES.map((y: number, index: number) => (
           <g key={`manifold-pipe-${index}`}>
-            {/* Отвод трубы из корпуса */}
             <rect
               x="235"
               y={y - 3}
@@ -153,7 +137,6 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
               stroke="#113875"
               strokeWidth="1"
             />
-            {/* Муфта / штуцер (серый металлик) */}
             <rect
               x="247"
               y={y - 5}
@@ -163,9 +146,7 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
               stroke="#64748b"
               strokeWidth="1"
             />
-            {/* Корпус шарового крана */}
             <circle cx="259" cy={y} r="4.5" fill="#4b5563" stroke="#1f2937" strokeWidth="1" />
-            {/* Поворотная ручка крана (красная бабочка/рычаг) */}
             <path
               d={`M 259 ${y} L 271 ${y}`}
               stroke="#ef4444"
@@ -178,7 +159,6 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
         ))}
       </svg>
 
-      {/* 7. Интеграция точек подключения (Handles) React Flow */}
       {PORT_Y_COORDINATES.map((y: number, index: number) => (
         <Handle
           key={`handle-source-${index}`}
@@ -187,7 +167,7 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
           id={`source-${index}`}
           style={{
             top: `${y}px`,
-            right: '25px', // Точное позиционирование на конце красных вентилей кранов
+            right: '25px',
             background: '#ef4444',
             width: '8px',
             height: '8px',
@@ -197,7 +177,6 @@ export const AGZNode: React.FC<AGZNodeProps> = ({ data }) => {
         />
       ))}
 
-      {/* 8. Нижняя технологическая плашка с параметрами (опционально, вынесена вниз для сохранения чистоты графики) */}
       {data.temperature || data.flowRate ? (
         <div
           style={{

@@ -1,22 +1,27 @@
-import { useState } from 'react';
 import { ReactFlow, Background, Controls } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { useFieldMapData } from '../../model/useFieldMapData';
 import { AGZNode } from '../AGZNode/AGZNode';
-import s from './FieldMap2D.module.css';
-import '@xyflow/react/dist/style.css';
 import { FANode } from '../FANode/FANode';
-import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 import { FADetailModal } from '../FADetailModal/FADetailModal';
+import s from './FieldMap2D.module.css';
+import { useFieldMapState } from './model/useFieldMapState';
+import { useFieldMapNodes } from './model/useFieldMapNodes';
 
 export const FieldMap2D = () => {
-  const { data, isLoading } = useGetWellStreamQuery('');
-  const [selectedFieldId, setSelectedFieldId] = useState<number | null>(null);
-  const [selectedClusterId, setSelectedClusterId] = useState<number | null>(null);
+  const {
+    data,
+    isLoading,
+    selectedField,
+    selectedCluster,
+    selectedWell,
+    selectedFieldId,
+    selectedClusterId,
+    setSelectedFieldId,
+    setSelectedClusterId,
+    setSelectedWellId,
+  } = useFieldMapState();
 
-  const selectedField = data?.find((f) => f.id === selectedFieldId);
-  const selectedCluster = selectedField?.clusters.find((c) => c.id === selectedClusterId);
-  const { nodes, edges } = useFieldMapData(selectedCluster);
+  const { nodesWithClick, edges } = useFieldMapNodes(selectedCluster, setSelectedWellId);
 
   if (isLoading) return <div className={s.loader}>Загрузка данных...</div>;
 
@@ -25,9 +30,11 @@ export const FieldMap2D = () => {
       <div className={s.controls}>
         <select
           className={s.select}
+          value={selectedFieldId ?? ''}
           onChange={(e) => {
-            setSelectedFieldId(Number(e.target.value));
+            setSelectedFieldId(e.target.value ? Number(e.target.value) : null);
             setSelectedClusterId(null);
+            setSelectedWellId(null);
           }}
         >
           <option value="">Выберите месторождение</option>
@@ -41,7 +48,11 @@ export const FieldMap2D = () => {
         <select
           className={s.select}
           disabled={!selectedFieldId}
-          onChange={(e) => setSelectedClusterId(Number(e.target.value))}
+          value={selectedClusterId ?? ''}
+          onChange={(e) => {
+            setSelectedClusterId(e.target.value ? Number(e.target.value) : null);
+            setSelectedWellId(null);
+          }}
         >
           <option value="">Выберите куст</option>
           {selectedField?.clusters.map((cluster) => (
@@ -58,7 +69,7 @@ export const FieldMap2D = () => {
         )}
         {selectedCluster && (
           <ReactFlow
-            nodes={nodes}
+            nodes={nodesWithClick}
             edges={edges}
             nodeTypes={{ agz: AGZNode, fa: FANode }}
             fitView
@@ -74,7 +85,7 @@ export const FieldMap2D = () => {
           </ReactFlow>
         )}
       </div>
-      <FADetailModal />
+      <FADetailModal well={selectedWell} onClose={() => setSelectedWellId(null)} />
     </div>
   );
 };

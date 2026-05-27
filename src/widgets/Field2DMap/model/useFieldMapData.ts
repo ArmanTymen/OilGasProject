@@ -45,13 +45,11 @@ export const useFieldMapData = (selectedCluster: Cluster | null | undefined) => 
   const edges: Edge[] = useMemo(() => {
     if (!selectedCluster) return [];
 
-    // Добавляем index в параметры callback-функции
     return selectedCluster.wells.map(
       (well: Well, index: number): Edge => ({
         id: `edge-agz-fa-${well.id}`,
         source: 'agz-1',
         target: `fa-${well.id}`,
-        // Привязываем конкретный индекс скважины к конкретному порту АГЗУ
         sourceHandle: `source-${index}`,
         style: { stroke: '#3b82f6', strokeWidth: 2 },
       }),

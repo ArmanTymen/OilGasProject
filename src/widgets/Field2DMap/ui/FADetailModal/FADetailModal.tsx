@@ -1,49 +1,54 @@
-import { Box } from '@mui/material';
+import { Box, Typography, Modal, Button } from '@mui/material';
+import s from './FADetailModal.module.css';
+import { useWellDetail } from './model/useWellDetail';
+import { ParamRow } from './ParamRow';
 
-export const FADetailModal = () => {
+interface WellDetail {
+  well?: string;
+  fieldName?: string;
+  clusterName?: string;
+  I?: number;
+  U?: number;
+  pressure?: number;
+  temperature?: number;
+  debit?: number;
+  flowRate?: number;
+  nominalI?: number;
+  nominalU?: number;
+  nominalDebit?: number;
+  nominalTemperature?: number;
+  nominalPressure?: number;
+  nominalFlowRate?: number;
+}
+
+interface FADetailModalProps {
+  well: WellDetail | null;
+  onClose: () => void;
+}
+
+export const FADetailModal = ({ well, onClose }: FADetailModalProps) => {
+  const detail = useWellDetail(well);
+  if (!detail) return null;
+
   return (
-    <Box
-      sx={{
-        border: '2px solid #1976d2',
-        borderRadius: '12px',
-        padding: '32px',
-        marginTop: '24px',
-        backgroundColor: '#f8faff',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-        maxWidth: '800px',
-        marginX: 'auto',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      {/* SVG-схема фонтанной арматуры */}
-      <svg viewBox="0 0 400 400" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
-        {/* Центральный ствол (вертикальная линия) */}
-        <line x1="200" y1="50" x2="200" y2="350" stroke="#333" strokeWidth="6" />
-
-        {/* Левая задвижка (горизонтальная линия) */}
-        <line x1="100" y1="150" x2="200" y2="150" stroke="#333" strokeWidth="6" />
-        {/* Левая ручка задвижки (круг) */}
-        <circle cx="100" cy="150" r="15" fill="#e0e0e0" stroke="#333" strokeWidth="3" />
-
-        {/* Правая задвижка (горизонтальная линия) */}
-        <line x1="200" y1="250" x2="300" y2="250" stroke="#333" strokeWidth="6" />
-        {/* Правая ручка задвижки (круг) */}
-        <circle cx="300" cy="250" r="15" fill="#e0e0e0" stroke="#333" strokeWidth="3" />
-
-        {/* Манометр 1 (слева сверху) */}
-        <circle cx="140" cy="80" r="25" fill="#ffffff" stroke="#333" strokeWidth="3" />
-        <line x1="140" y1="105" x2="140" y2="130" stroke="#333" strokeWidth="3" />
-        {/* Шкала манометра (простая полоска) */}
-        <line x1="120" y1="80" x2="160" y2="80" stroke="red" strokeWidth="4" />
-
-        {/* Манометр 2 (справа сверху) */}
-        <circle cx="260" cy="80" r="25" fill="#ffffff" stroke="#333" strokeWidth="3" />
-        <line x1="260" y1="105" x2="260" y2="130" stroke="#333" strokeWidth="3" />
-        {/* Шкала манометра */}
-        <line x1="240" y1="80" x2="280" y2="80" stroke="red" strokeWidth="4" />
-      </svg>
-    </Box>
+    <Modal open={true} onClose={onClose} aria-labelledby="modal-title">
+      <Box className={s.modal}>
+        <div className={s.imageSection}>
+          <img src="/assets/fa3.png" alt="Фонтанная арматура" className={s.image} />
+        </div>
+        <div className={s.dataSection}>
+          <Typography id="modal-title" variant="h5" sx={{ fontWeight: 'bold' }}>
+            {detail.wellName}
+          </Typography>
+          <Typography variant="body1">{detail.location}</Typography>
+          {detail.params.map((p) => (
+            <ParamRow key={p.label} {...p} />
+          ))}
+          <Button variant="contained" onClick={onClose} className={s.closeButton}>
+            Закрыть
+          </Button>
+        </div>
+      </Box>
+    </Modal>
   );
 };
