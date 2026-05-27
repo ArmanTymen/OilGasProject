@@ -1,5 +1,7 @@
 .root {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* на всю высоту родителя */
 }
 
 .controls {
@@ -16,14 +18,9 @@
 }
 
 .grid {
-  display: grid;
-  /* Автоматически подбирает количество колонок по ширине */
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
+  height: calc(100vh - 120px); /* 100% экрана минус высота шапки и отступов */
+  width: 100%;
   border: 1px solid #ddd;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 8px;
 }
 
 .placeholder {

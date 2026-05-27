@@ -1,8 +1,9 @@
 .page {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .header h1 {
@@ -18,6 +19,12 @@
 }
 
 .content {
-  width: 100%;
-  /* Контейнер виджета FieldMap2D внутри уже имеет свою сетку */
+  flex: 1; /* займёт всё оставшееся место */
+  min-height: 0; /* важно для flex-потомка */
+}
+
+@media (max-width: 768px) {
+  .page {
+    gap: 1.5rem;
+  }
 }
