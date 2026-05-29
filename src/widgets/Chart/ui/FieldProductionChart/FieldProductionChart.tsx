@@ -16,6 +16,8 @@ import {
   Tooltip,
   Legend,
   Filler,
+  BarController,
+  LineController,
 } from 'chart.js';
 
 ChartJS.register(
@@ -27,6 +29,8 @@ ChartJS.register(
   Tooltip,
   Legend,
   Filler,
+  BarController,
+  LineController,
 );
 
 export const FieldProductionChart = () => {

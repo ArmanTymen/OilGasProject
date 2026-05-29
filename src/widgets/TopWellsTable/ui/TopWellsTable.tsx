@@ -13,7 +13,7 @@ import {
 import styles from './TopWellsTable.module.css';
 
 export const TopWellsTable = () => {
-  const { data, isLoading } = useGetWellStreamQuery('');
+  const { data, isLoading } = useGetWellStreamQuery();
   if (isLoading || !data) return null;
 
   const allWells = data.flatMap((f) => f.clusters).flatMap((c) => c.wells);

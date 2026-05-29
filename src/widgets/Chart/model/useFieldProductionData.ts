@@ -1,7 +1,7 @@
 import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 
 export const useFieldProductionData = () => {
-  const { data, isLoading, error } = useGetWellStreamQuery('');
+  const { data, isLoading, error } = useGetWellStreamQuery();
 
   if (!data || isLoading || error)
     return { labels: [], values: [], totalDebit: 0, isLoading, error };

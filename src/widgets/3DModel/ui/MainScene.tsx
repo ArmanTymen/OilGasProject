@@ -26,7 +26,7 @@ export const MainScene = (props: MainSceneProps): JSX.Element => {
 
     const startPoint = new THREE.Vector3(-14.27, 6.025, 9.435);
     const cornerPoint = new THREE.Vector3(-24.27, 6.035, 9.435);
-    const endPoint = new THREE.Vector3(-24.27, -5.0, 9.435);
+    const endPoint = new THREE.Vector3(-24.27, -1.0, 9.435);
 
     const horizontalLine = new THREE.LineCurve3(startPoint, cornerPoint);
     const verticalLine = new THREE.LineCurve3(cornerPoint, endPoint);
