@@ -102,19 +102,15 @@ export const ProductionChart = () => {
       },
       zoom: {
         limits: {
-          // Индекс 0 — это абсолютное начало твоего текущего массива points
           x: { min: 0, max: 'original' },
         },
         zoom: {
           wheel: { enabled: true },
           pinch: { enabled: true },
-          // Зум работает только по оси времени (X)
           mode: 'x',
         },
         pan: {
           enabled: true,
-          // Скролл работает СТРОГО влево/вправо по оси X.
-          // Это отключает блокировку, если случайно потянуть график вниз или вверх.
           mode: 'x',
         },
       },

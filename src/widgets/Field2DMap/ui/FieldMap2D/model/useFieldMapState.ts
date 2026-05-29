@@ -3,7 +3,7 @@ import { useState, useMemo } from 'react';
 import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 
 export const useFieldMapState = () => {
-  const { data, isLoading } = useGetWellStreamQuery('');
+  const { data, isLoading } = useGetWellStreamQuery();
   const [selectedFieldId, setSelectedFieldId] = useState<number | null>(null);
   const [selectedClusterId, setSelectedClusterId] = useState<number | null>(null);
   const [selectedWellId, setSelectedWellId] = useState<number | null>(null);

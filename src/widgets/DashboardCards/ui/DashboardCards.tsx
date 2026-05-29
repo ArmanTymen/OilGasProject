@@ -4,7 +4,7 @@ import s from './DashboardCards.module.css';
 
 export const DashboardCards = () => {
   const { data: analyticsData, isLoading: analyticsLoading } = useGetAnalyticsQuery();
-  const { data: wellsData, isLoading: wellsLoading } = useGetWellStreamQuery('');
+  const { data: wellsData, isLoading: wellsLoading } = useGetWellStreamQuery();
 
   const isLoading = analyticsLoading || wellsLoading;
 

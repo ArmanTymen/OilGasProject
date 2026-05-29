@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { DepthData, ProductionAnalytics, WellData } from '../model/types';
-import { io, Socket } from 'socket.io-client';
+import type { IDrillingDelta, IDrillingWell, ProductionAnalytics, WellData } from '../model/types';
+import { socketClient } from './socketClient';
 
 let lastExecution = 0;
 const FIVE_MINUTES = 5 * 60 * 1000;
@@ -26,37 +26,40 @@ export const wellApi = createApi({
   reducerPath: 'wellApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001' }),
   endpoints: (builder) => ({
-    getWellStream: builder.query<WellData[], string>({
+    getWellStream: builder.query<WellData[], void>({
       query: () => `/fields`,
       async onCacheEntryAdded(_arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
-        const socket: Socket = io(`http://localhost:3001`);
         try {
           await cacheDataLoaded;
-          socket.on('fields:update', (updateFields: WellData[]) => {
+
+          const handleFieldsUpdate = (updateFields: WellData[]) => {
             updateCachedData((draft) => {
               updateFields.forEach((updateField) => {
                 const idx = draft.findIndex((f) => f.id === updateField.id);
                 if (idx !== -1) draft[idx] = updateField;
               });
             });
-          });
+          };
+
+          socketClient.on('fields:update', handleFieldsUpdate);
+
+          await cacheEntryRemoved;
+          socketClient.off('fields:update', handleFieldsUpdate);
         } catch (error) {
-          console.log(error);
+          console.error('WebSocket fields error:', error);
         }
-        await cacheEntryRemoved;
-        socket.disconnect();
       },
     }),
+
     getAnalytics: builder.query<ProductionAnalytics, void>({
       query: () => '/fields',
       transformResponse: (response: WellData[]) => calculateProduction(response),
       async onCacheEntryAdded(_arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
-        const socket: Socket = io(`http://localhost:3001`);
         try {
           await cacheDataLoaded;
-          socket.on('fields:update', (updateFields: WellData[]) => {
+
+          const handleAnalyticsUpdate = (updateFields: WellData[]) => {
             const now = Date.now();
-            // Считаем только если прошло 5 минут
             if (now - lastExecution > FIVE_MINUTES) {
               updateCachedData((draft) => {
                 const result = calculateProduction(updateFields);
@@ -64,44 +67,55 @@ export const wellApi = createApi({
                 lastExecution = now;
               });
             }
-          });
+          };
+
+          socketClient.on('fields:update', handleAnalyticsUpdate);
+
+          await cacheEntryRemoved;
+          socketClient.off('fields:update', handleAnalyticsUpdate);
         } catch (error) {
-          console.error(error);
+          console.error('WebSocket analytics error:', error);
         }
-        await cacheEntryRemoved;
-        socket.disconnect();
       },
     }),
-    getDepthStream: builder.query<DepthData[], void>({
-      query: () => `/depths`,
+
+    getDrillingStream: builder.query<IDrillingWell[], void>({
+      query: () => '/drilling',
       async onCacheEntryAdded(_arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
-        const socket: Socket = io(`http://localhost:3001`);
         try {
           await cacheDataLoaded;
-          socket.on('depths:update', (updateData: DepthData[]) => {
+
+          const handleDrillingUpdate = (deltas: IDrillingDelta[]) => {
             updateCachedData((draft) => {
-              updateData.forEach((u) => {
-                const idx = draft.findIndex((d) => d.wellId === u.wellId);
-                if (idx !== -1) draft[idx] = u;
+              deltas.forEach((delta) => {
+                const well = draft.find((w) => w.id === delta.id);
+                if (well) {
+                  well.currentDepth = delta.currentDepth;
+                  well.bottomHoleCoord = delta.bottomHoleCoord;
+                  well.rop = delta.rop;
+                  well.pumpPressure = delta.pumpPressure;
+                  well.torque = delta.torque;
+
+                  well.history.push(delta.newHistoryPoint);
+
+                  if (well.history.length > 2000) {
+                    well.history.shift();
+                  }
+                }
               });
             });
-          });
+          };
+
+          socketClient.on('drilling:update', handleDrillingUpdate);
+
+          await cacheEntryRemoved;
+          socketClient.off('drilling:update', handleDrillingUpdate);
         } catch (error) {
-          console.log(error);
+          console.error('WebSocket drilling error:', error);
         }
-        await cacheEntryRemoved;
-        socket.disconnect();
       },
-    }),
-    getWellData: builder.query<WellData[], void>({
-      query: () => `/fields`,
     }),
   }),
 });
 
-export const {
-  useGetWellStreamQuery,
-  useGetAnalyticsQuery,
-  useGetDepthStreamQuery,
-  useGetWellDataQuery,
-} = wellApi;
+export const { useGetWellStreamQuery, useGetAnalyticsQuery, useGetDrillingStreamQuery } = wellApi;

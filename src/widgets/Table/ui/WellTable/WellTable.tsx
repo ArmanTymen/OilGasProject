@@ -18,7 +18,7 @@ import { WellRow } from '@widgets/Table/ui/WellRow/WellRow';
 function WellTable(): ReactElement {
   'use no memo';
 
-  const { data, error, isLoading } = useGetWellStreamQuery('');
+  const { data, error, isLoading } = useGetWellStreamQuery();
   const parentRef = useRef<HTMLDivElement>(null);
   const {
     allWells,
