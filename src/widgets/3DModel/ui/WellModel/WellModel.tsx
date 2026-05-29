@@ -14,7 +14,7 @@ export const WellModel = ({ points }: WellModelProps) => {
     <group>
       <mesh>
         <tubeGeometry args={[curve, 64, 0.08, 12, false]} />
-        <meshStandardMaterial color="#333" metalness={1} roughness={0.3} />
+        <meshStandardMaterial color="#d4d0d0" metalness={1} roughness={0.3} />
       </mesh>
 
       <mesh position={points[points.length - 1]}>
