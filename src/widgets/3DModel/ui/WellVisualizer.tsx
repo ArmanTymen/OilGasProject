@@ -1,31 +1,34 @@
-import { Suspense, useMemo } from 'react';
+import { Suspense, type JSX } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Stage } from '@react-three/drei';
-import * as THREE from 'three';
-import { WellModel } from './WellModel/WellModel'; // Импорт начинки
-import s from './Well3DVisualizer.module.css'; // Импорт стилей
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { SceneEnvironment } from './SceneEnvironment';
+import { MainScene } from './MainScene';
+import s from './Well3DVisualizer.module.css';
+import { Perf } from 'r3f-perf';
+import { Ground } from './Ground';
+import { EnvironmentMask } from './EnvironmentMask';
 
-export const WellVisualizer = () => {
-  const trajectoryPoints = useMemo(
-    () => [
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(0.5, -3, 0.5),
-      new THREE.Vector3(1.5, -7, 2),
-      new THREE.Vector3(2.5, -10, 3.5),
-    ],
-    [],
-  );
-
+export const WellVisualizer = (): JSX.Element => {
   return (
     <div className={s.root}>
       <Canvas shadows>
         <Suspense fallback={null}>
-          <PerspectiveCamera makeDefault position={[10, 8, 15]} fov={45} />
-          <OrbitControls makeDefault enableDamping />
+          <Perf />
+          <PerspectiveCamera makeDefault position={[15, 10, 20]} fov={45} />
+          <OrbitControls
+            makeDefault
+            enableDamping
+            maxDistance={80}
+            minDistance={5}
+            maxPolarAngle={Math.PI / 1.5}
+          />
 
-          <Stage intensity={0.5} environment="city" adjustCamera={false}>
-            <WellModel points={trajectoryPoints} />
-          </Stage>
+          <EnvironmentMask />
+          <SceneEnvironment />
+          <group position={[0, 0, 0]}>
+            <Ground position={[0, -117.5, 0]} />
+            <MainScene position={[0, 1.2, 0]} />
+          </group>
         </Suspense>
       </Canvas>
     </div>
