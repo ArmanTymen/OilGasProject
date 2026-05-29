@@ -16,21 +16,24 @@ export const Ground = (props: GroundProps): JSX.Element => {
 
   useLayoutEffect(() => {
     scene.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-
-        const material = mesh.material;
-
+      if (child instanceof THREE.Mesh) {
+        const material = child.material;
         const materialArray = Array.isArray(material) ? material : [material];
 
         materialArray.forEach((mat) => {
           if (mat && mat.name && materials[mat.name]) {
-            mesh.material = materials[mat.name];
+            const targetMaterial = materials[mat.name];
+            child.material = targetMaterial;
 
-            if (!Array.isArray(mesh.material)) {
-              mesh.material.side = THREE.DoubleSide;
-              mesh.material.needsUpdate = true;
-            }
+            targetMaterial.side = THREE.DoubleSide;
+
+            targetMaterial.transparent = true;
+
+            targetMaterial.opacity = 0.4;
+
+            targetMaterial.depthWrite = false;
+
+            targetMaterial.needsUpdate = true;
           }
         });
       }
