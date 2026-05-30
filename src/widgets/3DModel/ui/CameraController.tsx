@@ -44,8 +44,8 @@ export const CameraController = ({ isFocused, bitPosition }: CameraControllerPro
         targetCameraPos.current.copy(savedCameraPos.current);
         targetTargetPos.current.copy(savedTargetPos.current);
       } else {
-        targetCameraPos.current.set(15, 10, 20);
-        targetTargetPos.current.set(0, 0, 0);
+        targetCameraPos.current.set(35, 10, 85);
+        targetTargetPos.current.set(25, 0.9, 75);
       }
     }
   }, [isFocused, camera, controls, bitX, bitY, bitZ]);
