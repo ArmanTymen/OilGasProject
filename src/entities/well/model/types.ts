@@ -90,3 +90,20 @@ export interface IDrillingDelta {
   torque: number;
   newHistoryPoint: IDrillingHistoryPoint;
 }
+
+export type WellStatus = 'бурение' | 'простой' | 'спо' | 'промывка';
+
+export interface Well {
+  id: number;
+  wellName: string;
+  status: WellStatus;
+  currentDepth: number;
+  targetDepth: number;
+  rop: number; // Rate of penetration
+  rpm: number; // Rotations per minute
+  pumpPressure: number;
+  weightOnBit: number;
+  limits: {
+    maxPumpPressure: number;
+  };
+}
