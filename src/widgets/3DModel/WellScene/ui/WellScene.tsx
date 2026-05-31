@@ -15,7 +15,6 @@ import { SceneEnvironment } from '../../SceneEnvironment';
 interface WellSceneProps {
   drillStringRef: React.RefObject<THREE.Group | null>;
   isFocusedOnBit: boolean;
-  truckTrigger: number;
   children?: ReactNode;
 }
 
@@ -24,7 +23,6 @@ const BIT_WORLD_POSITION: [number, number, number] = [-12, -124.8, -9];
 export const WellScene = ({
   drillStringRef,
   isFocusedOnBit,
-  truckTrigger,
   children,
 }: WellSceneProps): JSX.Element => {
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
@@ -67,7 +65,7 @@ export const WellScene = ({
         <Ground position={[0, -117.5, 0]} />
         <DrillString ref={drillStringRef} position={[-12, 5.2, -9]} />
         <OilReservoir position={[-16, -138, -9]} />
-        <MainScene position={[0, 1.2, 0]} truckTrigger={truckTrigger} />
+        <MainScene position={[0, 1.2, 0]} />
       </Suspense>
     </Canvas>
   );

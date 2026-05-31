@@ -12,24 +12,14 @@ interface WellVisualizerProps {
 export const WellVisualizer = React.memo(
   ({ drillStringRef, children }: WellVisualizerProps): JSX.Element => {
     const [isFocusedOnBit, setIsFocusedOnBit] = useState<boolean>(false);
-    const [truckTrigger, setTruckTrigger] = useState<number>(0);
-
     const handleToggleFocus = () => setIsFocusedOnBit((prev) => !prev);
-    const handleRestartTruck = () => setTruckTrigger((prev) => prev + 1);
+
     console.log('Рендер 3D');
     return (
       <div className={s.root}>
-        <WellVisualizerControls
-          isFocusedOnBit={isFocusedOnBit}
-          onToggleFocus={handleToggleFocus}
-          onRestartTruck={handleRestartTruck}
-        />
+        <WellVisualizerControls isFocusedOnBit={isFocusedOnBit} onToggleFocus={handleToggleFocus} />
 
-        <WellScene
-          drillStringRef={drillStringRef}
-          isFocusedOnBit={isFocusedOnBit}
-          truckTrigger={truckTrigger}
-        >
+        <WellScene drillStringRef={drillStringRef} isFocusedOnBit={isFocusedOnBit}>
           {children}
         </WellScene>
       </div>

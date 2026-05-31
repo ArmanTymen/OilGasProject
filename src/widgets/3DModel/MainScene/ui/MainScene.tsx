@@ -15,11 +15,9 @@ import { SceneDirector } from '@/features/scene-director/SceneDirector/ui/SceneD
 import { CanteenBuilding } from '@/entities/surface/CanteenBuilding/ui/CanteenBuilding';
 import { MainPlatform } from '@/entities/surface/MainPlatform';
 
-type MainSceneProps = ThreeElements['group'] & {
-  truckTrigger?: number;
-};
+type MainSceneProps = ThreeElements['group'];
 
-export const MainScene = ({ truckTrigger = 0, ...props }: MainSceneProps): JSX.Element => {
+export const MainScene = ({ ...props }: MainSceneProps): JSX.Element => {
   const thickPipeCurve = useMemo(() => {
     return new THREE.LineCurve3(
       new THREE.Vector3(-14.31, 4.51, 8.3),
@@ -51,7 +49,7 @@ export const MainScene = ({ truckTrigger = 0, ...props }: MainSceneProps): JSX.E
       <Tubes position={[15, 4, -16]} />
       <Containers position={[-12, 4, 16]} />
       <Container position={[18, 4, 12]} />
-      <SceneDirector truckTrigger={truckTrigger} />
+      <SceneDirector />
       <TruckLadder position={[5, -0.02, 32]} rotation={[0, 1.57, 0]} />
       <Rig position={[-12, 4, -9]} rotation={[0, 1.55, 0]} />
       <Pumps position={[-14, 3.98, 10]} rotation={[0, -1.55, 0]} />

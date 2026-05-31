@@ -2,15 +2,16 @@ import { useState, useEffect, useCallback, type JSX } from 'react';
 import { Truck } from '@/entities/surface/Truck/ui/Truck';
 import { Worker } from '@/entities/surface/Worker/ui/Worker';
 import { DIALOG_SEQUENCE } from '../lib/SceneDirectorText';
+import { useSceneDirectorStore } from '../model/useSceneDirectorStore';
 
-interface SceneDirectorProps {
-  truckTrigger?: number;
-}
+export const SceneDirector = (): JSX.Element => {
+  const truckTrigger = useSceneDirectorStore((state) => state.truckTrigger);
+  const currentRoute = useSceneDirectorStore((state) => state.currentRoute);
+  const completeSequence = useSceneDirectorStore((state) => state.completeSequence);
+  const startLeaveSequence = useSceneDirectorStore((state) => state.startLeaveSequence);
 
-export const SceneDirector = ({ truckTrigger = 0 }: SceneDirectorProps): JSX.Element => {
   const [isSequenceStarted, setIsSequenceStarted] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<number>(0);
-
   const [prevTrigger, setPrevTrigger] = useState<number>(truckTrigger);
 
   if (truckTrigger !== prevTrigger) {
@@ -20,12 +21,20 @@ export const SceneDirector = ({ truckTrigger = 0 }: SceneDirectorProps): JSX.Ele
   }
 
   const handleTruckArrive = useCallback(() => {
-    setIsSequenceStarted(true);
-  }, []);
+    if (currentRoute === 'arrival') {
+      setIsSequenceStarted(true);
+    } else if (currentRoute === 'departure') {
+      startLeaveSequence();
+    }
+  }, [currentRoute, startLeaveSequence]);
 
   useEffect(() => {
     if (!isSequenceStarted) return;
-    if (currentStep >= DIALOG_SEQUENCE.length) return;
+
+    if (currentStep >= DIALOG_SEQUENCE.length) {
+      completeSequence();
+      return;
+    }
 
     const currentLine = DIALOG_SEQUENCE[currentStep];
 
@@ -34,7 +43,7 @@ export const SceneDirector = ({ truckTrigger = 0 }: SceneDirectorProps): JSX.Ele
     }, currentLine.duration);
 
     return () => clearTimeout(timer);
-  }, [isSequenceStarted, currentStep]);
+  }, [isSequenceStarted, currentStep, completeSequence]);
 
   const isSequenceActive = isSequenceStarted && currentStep < DIALOG_SEQUENCE.length;
   const activeLine = isSequenceActive ? DIALOG_SEQUENCE[currentStep] : null;
@@ -44,7 +53,12 @@ export const SceneDirector = ({ truckTrigger = 0 }: SceneDirectorProps): JSX.Ele
 
   return (
     <>
-      <Truck runTrigger={truckTrigger} onArrive={handleTruckArrive} message={truckMessage} />
+      <Truck
+        runTrigger={truckTrigger}
+        routeId={currentRoute}
+        onArrive={handleTruckArrive}
+        message={truckMessage}
+      />
       <Worker message={workerMessage} position={[15, 4, -2]} />
     </>
   );

@@ -17,7 +17,6 @@ type WorkerProps = ThreeElements['group'] & {
 export const Worker = ({ message = null, ...props }: WorkerProps): JSX.Element => {
   const { scene } = useGLTF('/model/worker.glb') as unknown as WorkerGLTF;
 
-  // Изолируем модификацию теней на уровне инстанса компонента
   const clonedScene = useMemo(() => {
     const clone = scene.clone();
 
