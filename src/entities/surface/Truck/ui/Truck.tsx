@@ -15,12 +15,14 @@ type TruckProps = ThreeElements['group'] & {
   runTrigger?: number;
   onArrive?: () => void;
   message?: string | null;
+  routeId: 'arrival' | 'departure' | 'leave';
 };
 
 export const Truck = ({
   runTrigger = 0,
   onArrive,
   message = null,
+  routeId = 'arrival',
   ...props
 }: TruckProps): JSX.Element => {
   const { scene, nodes } = useGLTF('/model/trucks.glb') as unknown as TruckGLTF;
@@ -39,6 +41,7 @@ export const Truck = ({
     runTrigger,
     onArrive,
     nodes,
+    routeId,
   });
 
   return (
