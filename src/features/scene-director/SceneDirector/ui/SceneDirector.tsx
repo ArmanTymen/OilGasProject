@@ -11,6 +11,14 @@ export const SceneDirector = ({ truckTrigger = 0 }: SceneDirectorProps): JSX.Ele
   const [isSequenceStarted, setIsSequenceStarted] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<number>(0);
 
+  const [prevTrigger, setPrevTrigger] = useState<number>(truckTrigger);
+
+  if (truckTrigger !== prevTrigger) {
+    setPrevTrigger(truckTrigger);
+    setIsSequenceStarted(false);
+    setCurrentStep(0);
+  }
+
   const handleTruckArrive = useCallback(() => {
     setIsSequenceStarted(true);
   }, []);

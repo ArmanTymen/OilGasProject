@@ -30,7 +30,15 @@ export const WellScene = ({
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
 
   return (
-    <Canvas dpr={[1, 1.5]}>
+    <Canvas
+      dpr={[1, 1.5]}
+      gl={{
+        powerPreference: 'high-performance',
+        antialias: false,
+        depth: true,
+        stencil: false,
+      }}
+    >
       <Suspense fallback={null}>
         <Perf />
         <PerspectiveCamera makeDefault position={[35, 10, 85]} fov={45} />

@@ -95,12 +95,6 @@ export const wellApi = createApi({
                   well.rop = delta.rop;
                   well.pumpPressure = delta.pumpPressure;
                   well.torque = delta.torque;
-
-                  well.history.push(delta.newHistoryPoint);
-
-                  if (well.history.length > 2000) {
-                    well.history.shift();
-                  }
                 }
               });
             });

@@ -1,4 +1,4 @@
-import { useState, useRef, type JSX } from 'react';
+import { useState, useRef, useMemo, type JSX } from 'react';
 import * as THREE from 'three';
 import s from './Model3D.module.css';
 import { WellTelemetryHud } from '@/widgets/3DModel/WellTelemetryHud';
@@ -6,6 +6,7 @@ import { WellVisualizer } from '@/widgets/3DModel/WellVisualizer';
 import { WellSelectionModal } from '@/features/well-selection/WellSelectionModal';
 import { DrillingBridge } from '@/entities/surface/DrillingBridge';
 import { useGetDrillingStreamQuery } from '@/entities/well';
+import { WellTrajectory } from '@/entities/underground/WellTrajectory';
 
 const Model3D = (): JSX.Element => {
   const { data: wells = [], isLoading } = useGetDrillingStreamQuery();
@@ -15,6 +16,15 @@ const Model3D = (): JSX.Element => {
   const drillStringRef = useRef<THREE.Group>(null);
 
   const activeWell = wells.find((w) => w.id === selectedWellId);
+  const sceneChildren = useMemo(
+    () => (
+      <>
+        <DrillingBridge wellId={selectedWellId} drillStringRef={drillStringRef} />
+        <WellTrajectory wellId={selectedWellId} />
+      </>
+    ),
+    [selectedWellId],
+  );
 
   if (isLoading) {
     return <div className={s.loader}>Загрузка данных телеметрии...</div>;
@@ -31,9 +41,7 @@ const Model3D = (): JSX.Element => {
       )}
 
       <section className={s.canvasContainer}>
-        <WellVisualizer drillStringRef={drillStringRef}>
-          <DrillingBridge activeWell={activeWell} drillStringRef={drillStringRef} />
-        </WellVisualizer>
+        <WellVisualizer drillStringRef={drillStringRef}>{sceneChildren}</WellVisualizer>
       </section>
 
       {isModalOpen && (
