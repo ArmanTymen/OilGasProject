@@ -4,7 +4,7 @@ import {
   bubbleStyle,
   tailInnerStyle,
   tailStyle,
-} from '../../../../features/scene-director/SceneDirector/lib/SceneDirectorText';
+} from '@/features/scene-director/SceneDirector/lib/SceneDirectorText';
 
 interface SpeechBubbleProps {
   message: string;

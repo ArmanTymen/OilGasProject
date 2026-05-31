@@ -1,6 +1,5 @@
 export { useGetDrillingStreamQuery } from './api/wellApi';
 
-// Экспортируем нужные типы
 export type {
   Well,
   WellData,

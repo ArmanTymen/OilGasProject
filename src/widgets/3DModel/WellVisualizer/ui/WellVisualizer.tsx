@@ -1,4 +1,4 @@
-import { useState, type JSX, type ReactNode } from 'react';
+import React, { useState, type JSX, type ReactNode } from 'react';
 import * as THREE from 'three';
 import s from './WellVisualizer.module.css';
 import { WellScene } from '../../WellScene';
@@ -9,28 +9,30 @@ interface WellVisualizerProps {
   children?: ReactNode;
 }
 
-export const WellVisualizer = ({ drillStringRef, children }: WellVisualizerProps): JSX.Element => {
-  const [isFocusedOnBit, setIsFocusedOnBit] = useState<boolean>(false);
-  const [truckTrigger, setTruckTrigger] = useState<number>(0);
+export const WellVisualizer = React.memo(
+  ({ drillStringRef, children }: WellVisualizerProps): JSX.Element => {
+    const [isFocusedOnBit, setIsFocusedOnBit] = useState<boolean>(false);
+    const [truckTrigger, setTruckTrigger] = useState<number>(0);
 
-  const handleToggleFocus = () => setIsFocusedOnBit((prev) => !prev);
-  const handleRestartTruck = () => setTruckTrigger((prev) => prev + 1);
+    const handleToggleFocus = () => setIsFocusedOnBit((prev) => !prev);
+    const handleRestartTruck = () => setTruckTrigger((prev) => prev + 1);
+    console.log('Рендер 3D');
+    return (
+      <div className={s.root}>
+        <WellVisualizerControls
+          isFocusedOnBit={isFocusedOnBit}
+          onToggleFocus={handleToggleFocus}
+          onRestartTruck={handleRestartTruck}
+        />
 
-  return (
-    <div className={s.root}>
-      <WellVisualizerControls
-        isFocusedOnBit={isFocusedOnBit}
-        onToggleFocus={handleToggleFocus}
-        onRestartTruck={handleRestartTruck}
-      />
-
-      <WellScene
-        drillStringRef={drillStringRef}
-        isFocusedOnBit={isFocusedOnBit}
-        truckTrigger={truckTrigger}
-      >
-        {children}
-      </WellScene>
-    </div>
-  );
-};
+        <WellScene
+          drillStringRef={drillStringRef}
+          isFocusedOnBit={isFocusedOnBit}
+          truckTrigger={truckTrigger}
+        >
+          {children}
+        </WellScene>
+      </div>
+    );
+  },
+);

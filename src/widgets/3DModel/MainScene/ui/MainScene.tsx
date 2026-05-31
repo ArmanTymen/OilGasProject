@@ -57,8 +57,8 @@ export const MainScene = ({ truckTrigger = 0, ...props }: MainSceneProps): JSX.E
       <Pumps position={[-14, 3.98, 10]} rotation={[0, -1.55, 0]} />
       <StraightPipe path={thickPipeCurve} radius={0.145} tubularSegments={2} />
       <StraightPipe path={thinPipeCombinedPath} radius={0.04} tubularSegments={64} />
-      <CanteenBuilding position={[-10, 0.7, 160]} /> // его надо попробовать скрывать вообще как то,
-      потмоу что он далеко от буровой
+      <CanteenBuilding position={[-10, 0.7, 160]} /> // его надо попробовать скрывать вообще как
+      то,потмоу что он далеко от буровой
     </group>
   );
 };
