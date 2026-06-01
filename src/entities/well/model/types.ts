@@ -99,8 +99,8 @@ export interface Well {
   status: WellStatus;
   currentDepth: number;
   targetDepth: number;
-  rop: number; // Rate of penetration
-  rpm: number; // Rotations per minute
+  rop: number;
+  rpm: number;
   pumpPressure: number;
   weightOnBit: number;
   limits: {

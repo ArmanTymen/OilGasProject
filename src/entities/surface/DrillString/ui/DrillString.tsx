@@ -1,28 +1,62 @@
-import { useRef, type JSX } from 'react';
+import { useRef, useEffect, type JSX } from 'react';
 import * as THREE from 'three';
 import { useFrame, type ThreeElements } from '@react-three/fiber';
 import { Bit } from '@/entities/underground/Bit';
+import { DEPTH_SCALE } from '@/entities/well/model/constants';
+import { socketClient, type IDrillingDelta } from '@/entities/well';
 
-const PIPE_LENGTH = 130;
 const PIPE_RADIUS = 0.18;
-const RPM = 60;
-const ROTATION_SPEED = (RPM * Math.PI * 2) / 60;
 
-type DrillStringProps = ThreeElements['group'];
+type DrillStringProps = ThreeElements['group'] & {
+  wellId: number;
+};
 
-export const DrillString = (props: DrillStringProps): JSX.Element => {
+export const DrillString = ({ wellId, ...props }: DrillStringProps): JSX.Element => {
   const stringGroupRef = useRef<THREE.Group>(null);
+  const pipeMeshRef = useRef<THREE.Mesh>(null);
+  const bitGroupRef = useRef<THREE.Group>(null);
+  const currentRpmRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (!wellId) return;
+
+    const handleUpdate = (deltas: IDrillingDelta[]) => {
+      const delta = deltas.find((d) => d.id === wellId);
+      if (!delta?.bottomHoleCoord) return;
+
+      const currentDepth = Math.abs(delta.bottomHoleCoord.y);
+      const visualDepth = currentDepth * DEPTH_SCALE;
+
+      if (pipeMeshRef.current) {
+        pipeMeshRef.current.scale.y = visualDepth;
+        pipeMeshRef.current.position.y = -0.5 * visualDepth;
+      }
+      if (bitGroupRef.current) {
+        bitGroupRef.current.position.y = -visualDepth;
+      }
+
+      if (delta.newHistoryPoint?.rpm) {
+        currentRpmRef.current = delta.newHistoryPoint.rpm;
+      }
+    };
+
+    socketClient.on('drilling:update', handleUpdate);
+    return () => {
+      socketClient.off('drilling:update', handleUpdate);
+    };
+  }, [wellId]);
 
   useFrame((_, delta) => {
-    if (!stringGroupRef.current) return;
-
-    stringGroupRef.current.rotation.y -= ROTATION_SPEED * delta;
+    if (bitGroupRef.current && currentRpmRef.current > 0) {
+      const rotationSpeed = (currentRpmRef.current * Math.PI * 2) / 60;
+      bitGroupRef.current.rotation.y += rotationSpeed * delta;
+    }
   });
 
   return (
     <group ref={stringGroupRef} {...props}>
-      <mesh position={[0, -PIPE_LENGTH / 2, 0]} castShadow>
-        <cylinderGeometry args={[PIPE_RADIUS, PIPE_RADIUS, PIPE_LENGTH, 16]} />
+      <mesh ref={pipeMeshRef} position={[0, -0.5, 0]} castShadow>
+        <cylinderGeometry args={[PIPE_RADIUS, PIPE_RADIUS, 1, 16]} />
         <meshStandardMaterial
           color="#ff6600"
           emissive="#ff6600"
@@ -31,8 +65,7 @@ export const DrillString = (props: DrillStringProps): JSX.Element => {
           roughness={0.2}
         />
       </mesh>
-
-      <group position={[0, -PIPE_LENGTH, 0]} scale={[5, 5, 5]}>
+      <group ref={bitGroupRef} position={[0, -1, 0]} scale={[5, 5, 5]}>
         <Bit />
       </group>
     </group>

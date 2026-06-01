@@ -13,3 +13,5 @@ export type {
 } from './model/types';
 
 export { FIVE_MINUTES } from './model/constants';
+
+export { socketClient } from './api/socketClient';

@@ -13,6 +13,7 @@ import { CameraController } from '../../CameraController';
 import { SceneEnvironment } from '../../SceneEnvironment';
 
 interface WellSceneProps {
+  wellId: number;
   drillStringRef: React.RefObject<THREE.Group | null>;
   isFocusedOnBit: boolean;
   children?: ReactNode;
@@ -24,6 +25,7 @@ export const WellScene = ({
   drillStringRef,
   isFocusedOnBit,
   children,
+  wellId,
 }: WellSceneProps): JSX.Element => {
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
 
@@ -59,11 +61,10 @@ export const WellScene = ({
 
         <EnvironmentMask />
         <SceneEnvironment />
-
         {children}
 
         <Ground position={[0, -117.5, 0]} />
-        <DrillString ref={drillStringRef} position={[-12, 5.2, -9]} />
+        <DrillString wellId={wellId} ref={drillStringRef} position={[-12, 5.2, -9]} />
         <OilReservoir position={[-16, -138, -9]} />
         <MainScene position={[0, 1.2, 0]} />
       </Suspense>
