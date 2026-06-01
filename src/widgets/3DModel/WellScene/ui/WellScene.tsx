@@ -1,4 +1,4 @@
-import { Suspense, useRef, type JSX, type ReactNode } from 'react';
+import { Suspense, useRef, type ReactNode } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
@@ -19,6 +19,8 @@ interface WellSceneProps {
   drillStringRef: React.RefObject<THREE.Group | null>;
   isFocusedOnBit: boolean;
   children?: ReactNode;
+  isTablet?: boolean;
+  isMobile?: boolean;
 }
 
 export const WellScene = ({
@@ -26,14 +28,18 @@ export const WellScene = ({
   isFocusedOnBit,
   children,
   wellId,
-}: WellSceneProps): JSX.Element => {
+  isTablet,
+  isMobile,
+}: WellSceneProps) => {
   const { data: wells } = useGetDrillingStreamQuery();
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
+
+  if (isMobile) return null;
 
   const currentWell = wells?.find((w) => w.id === wellId);
 
   const bitWorldPosition: [number, number, number] = (() => {
-    if (!currentWell?.bottomHoleCoord) return [-12, -124.8, -9]; // fallback
+    if (!currentWell?.bottomHoleCoord) return [-12, -124.8, -9];
     const realDepth = Math.abs(currentWell.bottomHoleCoord.y);
     const visualDepth = realDepth * DEPTH_SCALE;
     const bitY = 5.2 - visualDepth;
@@ -51,6 +57,7 @@ export const WellScene = ({
       }}
     >
       <Suspense fallback={null}>
+        {!isTablet && <Perf />}
         <Perf />
         <PerspectiveCamera makeDefault position={[25, 30, 40]} fov={45} />
 
@@ -62,6 +69,11 @@ export const WellScene = ({
           minDistance={2}
           maxPolarAngle={Math.PI / 1.5}
           target={[-12, -30, -9]}
+          enablePan={true}
+          touches={{
+            ONE: THREE.TOUCH.PAN,
+            TWO: THREE.TOUCH.DOLLY_ROTATE,
+          }}
         />
 
         <CameraController
@@ -75,9 +87,13 @@ export const WellScene = ({
         {children}
 
         <Ground position={[0, -117.5, 0]} />
-        <DrillString wellId={wellId} ref={drillStringRef} position={[-12, 5.2, -9]} />
+        <DrillString
+          wellId={wellId}
+          ref={drillStringRef}
+          position={isTablet ? [0, 5.2, 0] : [-12, 5.2, -9]}
+        />
         <OilReservoir position={[-16, -138, -9]} />
-        <MainScene position={[0, 1.2, 0]} />
+        <MainScene position={[0, 1.2, 0]} isTablet={isTablet} />
       </Suspense>
     </Canvas>
   );

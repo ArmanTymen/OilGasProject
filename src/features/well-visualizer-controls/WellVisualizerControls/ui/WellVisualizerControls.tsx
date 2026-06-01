@@ -1,30 +1,36 @@
-import type { JSX } from 'react';
 import s from './WellVisualizerControls.module.css';
 import { useSceneDirectorStore } from '@/features/scene-director/SceneDirector';
 
 interface WellVisualizerControlsProps {
   isFocusedOnBit: boolean;
   onToggleFocus: () => void;
+  isTablet?: boolean;
+  isMobile?: boolean;
 }
 
 export const WellVisualizerControls = ({
   isFocusedOnBit,
   onToggleFocus,
-}: WellVisualizerControlsProps): JSX.Element => {
+  isTablet,
+  isMobile,
+}: WellVisualizerControlsProps) => {
   const startSequence = useSceneDirectorStore((state) => state.startFirstSequence);
 
+  if (isMobile) return null;
+
   return (
-    <div className={s.controlsContainer}>
+    <div className={`${s.controlsContainer} ${isTablet ? s.tabletControls : ''}`}>
       <button
         onClick={onToggleFocus}
         className={`${s.controlBtn} ${isFocusedOnBit ? s.btnActive : ''}`}
       >
-        {isFocusedOnBit ? 'Вернуть камеру назад' : 'Фокус на долото'}
+        {isFocusedOnBit ? 'Вернуть' : 'Фокус на долото'}
       </button>
-
-      <button onClick={startSequence} className={s.controlBtn}>
-        Перезапустить грузовик
-      </button>
+      {!isTablet && (
+        <button onClick={startSequence} className={s.controlBtn}>
+          Перезапустить грузовик
+        </button>
+      )}
     </div>
   );
 };
