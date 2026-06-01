@@ -33,7 +33,6 @@ export const Bit = (props: BitProps): JSX.Element => {
             clonedMat.emissiveIntensity = 0.15;
             clonedMat.metalness = 0.9;
             clonedMat.roughness = 0.4;
-
             return clonedMat;
           }
           return mat;

@@ -5,21 +5,21 @@ import { WellScene } from '../../WellScene';
 import { WellVisualizerControls } from '@/features/well-visualizer-controls/WellVisualizerControls';
 
 interface WellVisualizerProps {
+  wellId: number;
   drillStringRef: React.RefObject<THREE.Group | null>;
   children?: ReactNode;
 }
 
 export const WellVisualizer = React.memo(
-  ({ drillStringRef, children }: WellVisualizerProps): JSX.Element => {
+  ({ drillStringRef, children, wellId }: WellVisualizerProps): JSX.Element => {
     const [isFocusedOnBit, setIsFocusedOnBit] = useState<boolean>(false);
     const handleToggleFocus = () => setIsFocusedOnBit((prev) => !prev);
 
-    console.log('Рендер 3D');
     return (
       <div className={s.root}>
         <WellVisualizerControls isFocusedOnBit={isFocusedOnBit} onToggleFocus={handleToggleFocus} />
 
-        <WellScene drillStringRef={drillStringRef} isFocusedOnBit={isFocusedOnBit}>
+        <WellScene wellId={wellId} drillStringRef={drillStringRef} isFocusedOnBit={isFocusedOnBit}>
           {children}
         </WellScene>
       </div>
