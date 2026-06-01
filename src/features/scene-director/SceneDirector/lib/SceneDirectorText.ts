@@ -7,10 +7,10 @@ export type DialogLine = {
 };
 
 export const DIALOG_SEQUENCE: DialogLine[] = [
-  { speaker: 'truck', text: 'Принимай груз, шеф! Привез четко по графику.', duration: 500 },
-  { speaker: 'worker', text: 'Отлично. Ставь на разгрузку у второго терминала.', duration: 1000 },
-  { speaker: 'truck', text: 'Понял, глушу мотор.', duration: 2500 },
-  { speaker: 'worker', text: 'Как закончишь, зайди в диспетчерскую за путевым.', duration: 3500 },
+  { speaker: 'truck', text: 'Принимай груз, шеф! Кран где?', duration: 2500 },
+  { speaker: 'worker', text: 'Здорова! Кран будет после обеда, езжай в столовку.', duration: 3000 },
+  { speaker: 'truck', text: 'Понял, через час вернусь.', duration: 2500 },
+  { speaker: 'worker', text: 'Как подъдешь, зайди в диспетчерскую за путевым.', duration: 3000 },
 ];
 
 export const bubbleStyle: CSSProperties = {

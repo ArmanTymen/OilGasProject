@@ -11,6 +11,8 @@ import { MainScene } from '../../MainScene';
 import { EnvironmentMask } from '@/entities/environment/EnvironmentMask/EnvironmentMask';
 import { CameraController } from '../../CameraController';
 import { SceneEnvironment } from '../../SceneEnvironment';
+import { useGetDrillingStreamQuery } from '@/entities/well';
+import { DEPTH_SCALE } from '@/entities/well/model/constants';
 
 interface WellSceneProps {
   wellId: number;
@@ -19,15 +21,24 @@ interface WellSceneProps {
   children?: ReactNode;
 }
 
-const BIT_WORLD_POSITION: [number, number, number] = [-12, -124.8, -9];
-
 export const WellScene = ({
   drillStringRef,
   isFocusedOnBit,
   children,
   wellId,
 }: WellSceneProps): JSX.Element => {
+  const { data: wells } = useGetDrillingStreamQuery();
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
+
+  const currentWell = wells?.find((w) => w.id === wellId);
+
+  const bitWorldPosition: [number, number, number] = (() => {
+    if (!currentWell?.bottomHoleCoord) return [-12, -124.8, -9]; // fallback
+    const realDepth = Math.abs(currentWell.bottomHoleCoord.y);
+    const visualDepth = realDepth * DEPTH_SCALE;
+    const bitY = 5.2 - visualDepth;
+    return [-12, bitY, -9];
+  })();
 
   return (
     <Canvas
@@ -41,7 +52,7 @@ export const WellScene = ({
     >
       <Suspense fallback={null}>
         <Perf />
-        <PerspectiveCamera makeDefault position={[35, 10, 85]} fov={45} />
+        <PerspectiveCamera makeDefault position={[25, 30, 40]} fov={45} />
 
         <OrbitControls
           ref={orbitControlsRef}
@@ -50,12 +61,12 @@ export const WellScene = ({
           maxDistance={200}
           minDistance={2}
           maxPolarAngle={Math.PI / 1.5}
-          target={[25, 0, 75]}
+          target={[-12, -30, -9]}
         />
 
         <CameraController
           isFocused={isFocusedOnBit}
-          bitPosition={BIT_WORLD_POSITION}
+          bitPosition={bitWorldPosition}
           controlsRef={orbitControlsRef}
         />
 
