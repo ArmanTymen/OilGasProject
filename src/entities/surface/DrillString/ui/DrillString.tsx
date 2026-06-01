@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useFrame, type ThreeElements } from '@react-three/fiber';
 import { Bit } from '@/entities/underground/Bit';
 import { DEPTH_SCALE } from '@/entities/well/model/constants';
-import { socketClient, type IDrillingDelta } from '@/entities/well';
+import { socketClient, useGetDrillingStreamQuery, type IDrillingDelta } from '@/entities/well';
 
 const PIPE_RADIUS = 0.18;
 
@@ -16,6 +16,19 @@ export const DrillString = ({ wellId, ...props }: DrillStringProps): JSX.Element
   const pipeMeshRef = useRef<THREE.Mesh>(null);
   const bitGroupRef = useRef<THREE.Group>(null);
   const currentRpmRef = useRef<number>(0);
+
+  const { data: wells } = useGetDrillingStreamQuery();
+  const currentWell = wells?.find((w) => w.id === wellId);
+  const initialDepth = currentWell?.currentDepth ?? 0;
+  const status = currentWell?.status;
+
+  useEffect(() => {
+    if (!pipeMeshRef.current || !bitGroupRef.current) return;
+    const visualDepth = initialDepth * DEPTH_SCALE;
+    pipeMeshRef.current.scale.y = visualDepth;
+    pipeMeshRef.current.position.y = -0.5 * visualDepth;
+    bitGroupRef.current.position.y = -visualDepth;
+  }, [initialDepth]);
 
   useEffect(() => {
     if (!wellId) return;
@@ -47,11 +60,42 @@ export const DrillString = ({ wellId, ...props }: DrillStringProps): JSX.Element
   }, [wellId]);
 
   useFrame((_, delta) => {
-    if (bitGroupRef.current && currentRpmRef.current > 0) {
+    if (status === 'бурение' && bitGroupRef.current && currentRpmRef.current > 0) {
       const rotationSpeed = (currentRpmRef.current * Math.PI * 2) / 60;
       bitGroupRef.current.rotation.y += rotationSpeed * delta;
     }
   });
+
+  useEffect(() => {
+    if (!pipeMeshRef.current) return;
+    const material = pipeMeshRef.current.material as THREE.MeshStandardMaterial;
+
+    switch (status) {
+      case 'бурение':
+        material.color.setHex(0xff6600);
+        material.emissiveIntensity = 0.4;
+        material.transparent = false;
+        break;
+      case 'спо':
+        material.color.setHex(0xccaa88);
+        material.emissiveIntensity = 0.1;
+        material.transparent = false;
+        break;
+      case 'промывка':
+        material.color.setHex(0x3399ff);
+        material.emissiveIntensity = 0;
+        material.transparent = false;
+        break;
+      case 'простой':
+        material.color.setHex(0x888888);
+        material.emissiveIntensity = 0;
+        material.transparent = true;
+        material.opacity = 0.6;
+        break;
+      default:
+        break;
+    }
+  }, [status]);
 
   return (
     <group ref={stringGroupRef} {...props}>
