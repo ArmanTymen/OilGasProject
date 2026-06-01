@@ -1,19 +1,37 @@
-import type { JSX } from 'react';
 import type { Well } from '@/entities/well/model/types';
 import s from './WellTelemetryHud.module.css';
-
 interface WellTelemetryHudProps {
   activeWell: Well;
   onOpenModal: () => void;
   wellsCount: number;
+  isTablet?: boolean;
+  isMobile?: boolean;
 }
 
 export const WellTelemetryHud = ({
   activeWell,
   onOpenModal,
   wellsCount,
-}: WellTelemetryHudProps): JSX.Element => {
+  isTablet,
+  isMobile,
+}: WellTelemetryHudProps) => {
   const isPressureExceeded = activeWell.pumpPressure > activeWell.limits.maxPumpPressure;
+
+  if (isMobile) return null;
+  if (isTablet) {
+    return (
+      <div className={s.hudOverlayTablet}>
+        <div className={s.hudCardTablet}>
+          <h3>{activeWell.wellName}</h3>
+          <p>Статус: {activeWell.status}</p>
+          <div>Глубина: {activeWell.currentDepth.toFixed(0)} м</div>
+          <div>RPM: {activeWell.rpm}</div>
+          <div>Давление: {Math.round(activeWell.pumpPressure)} атм</div>
+          <button onClick={onOpenModal}>Сменить скважину ({wellsCount})</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={s.hudOverlay}>

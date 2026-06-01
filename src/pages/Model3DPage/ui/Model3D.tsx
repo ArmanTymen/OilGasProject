@@ -5,6 +5,7 @@ import { WellTelemetryHud } from '@/widgets/3DModel/WellTelemetryHud';
 import { WellVisualizer } from '@/widgets/3DModel/WellVisualizer';
 import { WellSelectionModal } from '@/features/well-selection/WellSelectionModal';
 import { useGetDrillingStreamQuery } from '@/entities/well';
+import { useMediaQuery } from 'react-responsive';
 
 const Model3D = (): JSX.Element => {
   const { data: wells = [], isLoading } = useGetDrillingStreamQuery();
@@ -12,8 +13,10 @@ const Model3D = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const drillStringRef = useRef<THREE.Group>(null);
-
   const activeWell = wells.find((w) => w.id === selectedWellId);
+
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   if (isLoading) {
     return <div className={s.loader}>Загрузка данных телеметрии...</div>;
@@ -26,11 +29,18 @@ const Model3D = (): JSX.Element => {
           activeWell={activeWell}
           onOpenModal={() => setIsModalOpen(true)}
           wellsCount={wells.length}
+          isTablet={isTablet}
+          isMobile={isMobile}
         />
       )}
 
       <section className={s.canvasContainer}>
-        <WellVisualizer wellId={selectedWellId} drillStringRef={drillStringRef} />
+        <WellVisualizer
+          wellId={selectedWellId}
+          drillStringRef={drillStringRef}
+          isTablet={isTablet}
+          isMobile={isMobile}
+        />
       </section>
 
       {isModalOpen && (

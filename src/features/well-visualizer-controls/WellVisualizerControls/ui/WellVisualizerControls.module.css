@@ -35,3 +35,34 @@
   background: #e05500;
   border-color: #e05500;
 }
+
+/* tablet */
+.tabletControls {
+  top: 16px;
+  left: 16px;
+  gap: 12px;
+}
+.tabletControls .controlBtn {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .controlsContainer {
+    top: 16px;
+    left: 16px;
+    gap: 12px;
+  }
+  .controlBtn {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 767px) {
+  .controlsContainer {
+    display: none;
+  }
+}

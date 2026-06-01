@@ -73,3 +73,40 @@
 .selectWellBtn:hover {
   background: #e05500;
 }
+
+/* //tablet */
+.hudOverlayTablet {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 5;
+  width: 220px;
+}
+
+.hudCardTablet {
+  background: rgba(20, 20, 20, 0.9);
+  border: 1px solid #ff6600;
+  border-radius: 8px;
+  padding: 10px;
+  color: #eee;
+  font-size: 14px;
+  backdrop-filter: blur(4px);
+}
+
+.hudCardTablet h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #ff6600;
+}
+
+.hudCardTablet button {
+  margin-top: 8px;
+  background: #ff6600;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}

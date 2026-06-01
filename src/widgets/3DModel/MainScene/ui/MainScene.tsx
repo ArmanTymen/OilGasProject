@@ -15,9 +15,11 @@ import { SceneDirector } from '@/features/scene-director/SceneDirector/ui/SceneD
 import { CanteenBuilding } from '@/entities/surface/CanteenBuilding/ui/CanteenBuilding';
 import { MainPlatform } from '@/entities/surface/MainPlatform';
 
-type MainSceneProps = ThreeElements['group'];
+type MainSceneProps = ThreeElements['group'] & {
+  isTablet?: boolean;
+};
 
-export const MainScene = ({ ...props }: MainSceneProps): JSX.Element => {
+export const MainScene = ({ isTablet, ...props }: MainSceneProps): JSX.Element => {
   const thickPipeCurve = useMemo(() => {
     return new THREE.LineCurve3(
       new THREE.Vector3(-14.31, 4.51, 8.3),
@@ -45,17 +47,22 @@ export const MainScene = ({ ...props }: MainSceneProps): JSX.Element => {
     <group {...props}>
       <Surface position={[8, 0.5, 0]} />
       <MainPlatform position={[0, 2.5, 0]} />
-      <TankModel position={[15, 4, 19]} />
-      <Tubes position={[15, 4, -16]} />
-      <Containers position={[-12, 4, 16]} />
-      <Container position={[18, 4, 12]} />
-      <SceneDirector />
-      <TruckLadder position={[5, -0.02, 32]} rotation={[0, 1.57, 0]} />
-      <Rig position={[-12, 4, -9]} rotation={[0, 1.55, 0]} />
-      <Pumps position={[-14, 3.98, 10]} rotation={[0, -1.55, 0]} />
-      <StraightPipe path={thickPipeCurve} radius={0.145} tubularSegments={2} />
-      <StraightPipe path={thinPipeCombinedPath} radius={0.04} tubularSegments={64} />
-      <CanteenBuilding position={[-10, 0.7, 160]} />
+      <Rig position={isTablet ? [0, 4, 0] : [-12, 4, -9]} rotation={[0, 1.55, 0]} />
+
+      {!isTablet && (
+        <>
+          <TankModel position={[15, 4, 19]} />
+          <Tubes position={[15, 4, -16]} />
+          <Containers position={[-12, 4, 16]} />
+          <Container position={[18, 4, 12]} />
+          <Pumps position={[-14, 3.98, 10]} rotation={[0, -1.55, 0]} />
+          <StraightPipe path={thickPipeCurve} radius={0.145} tubularSegments={2} />
+          <StraightPipe path={thinPipeCombinedPath} radius={0.04} tubularSegments={64} />
+          <CanteenBuilding position={[-10, 0.7, 160]} />
+          <TruckLadder position={[5, -0.02, 32]} rotation={[0, 1.57, 0]} />
+          <SceneDirector />
+        </>
+      )}
     </group>
   );
 };
