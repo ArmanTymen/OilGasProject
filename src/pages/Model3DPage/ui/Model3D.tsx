@@ -6,6 +6,7 @@ import { WellVisualizer } from '@/widgets/3DModel/WellVisualizer';
 import { WellSelectionModal } from '@/features/well-selection/WellSelectionModal';
 import { useGetDrillingStreamQuery } from '@/entities/well';
 import { useMediaQuery } from 'react-responsive';
+import { MobileWellSchema } from '@/widgets/3DModel/MobileWellSchema';
 
 const Model3D = (): JSX.Element => {
   const { data: wells = [], isLoading } = useGetDrillingStreamQuery();
@@ -17,6 +18,10 @@ const Model3D = (): JSX.Element => {
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
+
+  if (isMobile) {
+    return <MobileWellSchema wellId={selectedWellId} />;
+  }
 
   if (isLoading) {
     return <div className={s.loader}>Загрузка данных телеметрии...</div>;
