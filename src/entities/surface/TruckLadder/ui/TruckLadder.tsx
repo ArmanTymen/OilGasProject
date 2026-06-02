@@ -41,5 +41,3 @@ export const TruckLadder = (props: TruckLadderProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/rump1.glb');

@@ -41,5 +41,3 @@ export const Surface = (props: SurfaceProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/surface.glb');

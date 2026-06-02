@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useGetDrillingStreamQuery } from '@/entities/well';
 import { MobileWellHud } from '@/features/mobile-well-hud';
 import { WellCanvas } from '@/features/well-canvas';
-
+import s from './MobileWellSchema.module.css';
 interface MobileWellSchemaProps {
   wellId: number;
 }
@@ -21,7 +21,7 @@ export const MobileWellSchema = ({ wellId }: MobileWellSchemaProps) => {
   if (!activeWell) return <div>Скважина не найдена</div>;
 
   return (
-    <div className="mobileContainer">
+    <div className={s.mobileContainer}>
       <MobileWellHud
         activeWell={activeWell}
         wells={wells || []}

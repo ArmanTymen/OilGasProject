@@ -38,5 +38,3 @@ export const Worker = ({ message = null, ...props }: WorkerProps): JSX.Element =
     </group>
   );
 };
-
-useGLTF.preload('/model/worker.glb');

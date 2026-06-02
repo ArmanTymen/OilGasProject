@@ -85,7 +85,11 @@ export const FieldMap2D = () => {
           </ReactFlow>
         )}
       </div>
-      <FADetailModal well={selectedWell} onClose={() => setSelectedWellId(null)} />
+      <FADetailModal
+        well={selectedWell}
+        open={!!selectedWell}
+        onClose={() => setSelectedWellId(null)}
+      />
     </div>
   );
 };

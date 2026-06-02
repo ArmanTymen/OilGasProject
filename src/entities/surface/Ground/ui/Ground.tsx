@@ -44,5 +44,3 @@ export const Ground = (props: GroundProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/gr.glb');

@@ -1,22 +1,5 @@
+import type { WellDetail } from '@/entities/well';
 import { useMemo } from 'react';
-
-interface WellDetail {
-  well?: string;
-  fieldName?: string;
-  clusterName?: string;
-  I?: number;
-  U?: number;
-  pressure?: number;
-  temperature?: number;
-  debit?: number;
-  flowRate?: number;
-  nominalI?: number;
-  nominalU?: number;
-  nominalDebit?: number;
-  nominalTemperature?: number;
-  nominalPressure?: number;
-  nominalFlowRate?: number;
-}
 
 export const useWellDetail = (well: WellDetail | null) => {
   const detail = useMemo(() => {

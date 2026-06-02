@@ -54,5 +54,3 @@ export const Truck = ({
     </group>
   );
 };
-
-useGLTF.preload('/model/trucks.glb');

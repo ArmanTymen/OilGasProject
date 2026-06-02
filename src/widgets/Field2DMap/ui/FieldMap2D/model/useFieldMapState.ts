@@ -1,4 +1,3 @@
-// model/useFieldMapState.ts
 import { useState, useMemo } from 'react';
 import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 

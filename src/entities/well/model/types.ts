@@ -107,3 +107,8 @@ export interface Well {
     maxPumpPressure: number;
   };
 }
+
+export type WellDetail = WellData['clusters'][number]['wells'][number] & {
+  fieldName: string;
+  clusterName: string;
+};

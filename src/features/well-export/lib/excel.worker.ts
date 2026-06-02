@@ -22,7 +22,6 @@ self.onmessage = (e: MessageEvent<ExcelWorkerInput>) => {
 
   const worksheet = XLSX.utils.json_to_sheet(dataToExport);
 
-  // Добавляем автоматическую ширину колонок (базовый расчет)
   const objectMaxLength: number[][] = dataToExport.map((row) =>
     Object.values(row).map((val) => val?.toString().length || 0),
   );

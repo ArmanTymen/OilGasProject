@@ -15,7 +15,6 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-/* ровные строки без зебры, только разделитель */
 .row {
   transition: background 0.2s;
 }

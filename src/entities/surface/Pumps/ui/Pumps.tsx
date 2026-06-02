@@ -33,5 +33,3 @@ export const Pumps = (props: PumpsProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/pump.glb');

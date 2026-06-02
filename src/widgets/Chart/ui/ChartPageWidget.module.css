@@ -33,6 +33,6 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: 100%; /* Растягивает контейнер на всю ширину экрана */
+  width: 100%;
   box-sizing: border-box;
 }

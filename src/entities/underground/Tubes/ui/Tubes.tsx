@@ -33,5 +33,3 @@ export const Tubes = (props: TubesProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/tubes.glb');

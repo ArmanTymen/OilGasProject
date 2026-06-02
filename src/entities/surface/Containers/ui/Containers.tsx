@@ -33,5 +33,3 @@ export const Containers = (props: ContainersProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/containers.glb');

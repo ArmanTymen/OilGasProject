@@ -2,36 +2,20 @@ import { Box, Typography, Modal, Button } from '@mui/material';
 import s from './FADetailModal.module.css';
 import { useWellDetail } from './model/useWellDetail';
 import { ParamRow } from './ParamRow';
-
-interface WellDetail {
-  well?: string;
-  fieldName?: string;
-  clusterName?: string;
-  I?: number;
-  U?: number;
-  pressure?: number;
-  temperature?: number;
-  debit?: number;
-  flowRate?: number;
-  nominalI?: number;
-  nominalU?: number;
-  nominalDebit?: number;
-  nominalTemperature?: number;
-  nominalPressure?: number;
-  nominalFlowRate?: number;
-}
+import type { WellDetail } from '@/entities/well';
 
 interface FADetailModalProps {
   well: WellDetail | null;
+  open: boolean;
   onClose: () => void;
 }
 
-export const FADetailModal = ({ well, onClose }: FADetailModalProps) => {
+export const FADetailModal = ({ well, onClose, open }: FADetailModalProps) => {
   const detail = useWellDetail(well);
   if (!detail) return null;
 
   return (
-    <Modal open={true} onClose={onClose} aria-labelledby="modal-title">
+    <Modal open={open} onClose={onClose} aria-labelledby="modal-title">
       <Box className={s.modal}>
         <div className={s.imageSection}>
           <img src="/assets/fa3.png" alt="Фонтанная арматура" className={s.image} />

@@ -10,7 +10,7 @@
 
 .chartWrapper {
   position: relative;
-  height: 380px; /* Фиксированная высота, ширина подстроится под .root (100%) */
+  height: 380px;
   width: 100%;
 }
 

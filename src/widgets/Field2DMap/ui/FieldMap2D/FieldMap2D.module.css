@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: column;
-  height: 100%; /* на всю высоту родителя */
+  height: 100%;
 }
 
 .controls {
@@ -18,7 +18,7 @@
 }
 
 .grid {
-  height: calc(100vh - 120px); /* 100% экрана минус высота шапки и отступов */
+  height: calc(100vh - 120px);
   width: 100%;
   border: 1px solid #ddd;
 }
@@ -53,7 +53,6 @@
   opacity: 0.8;
 }
 
-/* Адаптив для селекторов */
 @media (max-width: 600px) {
   .controls {
     flex-direction: column;

@@ -53,5 +53,3 @@ export const Bit = (props: BitProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/bit.glb');

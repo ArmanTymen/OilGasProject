@@ -33,5 +33,3 @@ export const CanteenBuilding = (props: CanteenBuildingProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/canteen_building.glb');

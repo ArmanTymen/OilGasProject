@@ -19,8 +19,8 @@
 }
 
 .content {
-  flex: 1; /* займёт всё оставшееся место */
-  min-height: 0; /* важно для flex-потомка */
+  flex: 1;
+  min-height: 0;
 }
 
 @media (max-width: 768px) {
