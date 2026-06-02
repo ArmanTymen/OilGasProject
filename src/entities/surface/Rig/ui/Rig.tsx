@@ -33,5 +33,3 @@ export const Rig = (props: RigProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/rigg.glb');

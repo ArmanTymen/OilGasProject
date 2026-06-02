@@ -1,4 +1,3 @@
-// model/useFieldMapNodes.ts
 import { useFieldMapData } from '@/widgets/Field2DMap/model/useFieldMapData';
 import { useMemo } from 'react';
 

@@ -41,5 +41,3 @@ export const MainPlatform = (props: MainPlatformProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/main_platform.glb');

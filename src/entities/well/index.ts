@@ -10,6 +10,7 @@ export type {
   DepthData,
   IDrillingLimits,
   IDrillingHistoryPoint,
+  WellDetail,
 } from './model/types';
 
 export { FIVE_MINUTES } from './model/constants';

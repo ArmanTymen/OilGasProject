@@ -33,5 +33,3 @@ export const TankModel = (props: TankModelProps): JSX.Element => {
     </group>
   );
 };
-
-useGLTF.preload('/model/tank_finally.glb');
