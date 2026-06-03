@@ -1,10 +1,10 @@
 import { Chart } from 'react-chartjs-2';
 import s from './FieldProductionChart.module.css';
-import { useFieldProductionData } from '../../model/useFieldProductionData';
+import { useFieldProductionData } from '../model/useFieldProductionData';
 import {
   buildFieldProductionChartData,
   fieldProductionChartOptions,
-} from '../../model/fieldProductionConfig';
+} from '../model/fieldProductionConfig';
 import type { ChartData } from 'chart.js';
 import {
   Chart as ChartJS,
