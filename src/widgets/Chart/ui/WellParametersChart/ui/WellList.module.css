@@ -1,0 +1,31 @@
+.wellList {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  height: 100%;
+  overflow-y: auto;
+}
+.wellList h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+.wellList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wellItem {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.wellItem:hover {
+  background: #f0f0f0;
+}
+.wellItem.selected {
+  background: #ff6600;
+  color: white;
+}
