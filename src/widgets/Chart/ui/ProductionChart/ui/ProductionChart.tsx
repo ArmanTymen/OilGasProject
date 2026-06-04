@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Chart as ChartJS,
   LineElement,
@@ -16,6 +16,7 @@ import { Line } from 'react-chartjs-2';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import s from './ProductionChart.module.css';
 import { useChart } from '../model/useChart';
+import { useGetDrillingStreamQuery } from '@/entities/well';
 
 ChartJS.register(
   LineElement,
@@ -29,7 +30,27 @@ ChartJS.register(
 );
 
 export const ProductionChart = () => {
-  const { points, isLoading, error } = useChart();
+  const { data: wells } = useGetDrillingStreamQuery();
+  const [selectedWellId, setSelectedWellId] = useState<number | null>(() => {
+    return wells?.[0]?.id ?? null;
+  });
+
+  useEffect(() => {
+    if (wells?.length && selectedWellId === null) {
+      // Микрозадача переносит setState в конец текущего цикла рендера
+      queueMicrotask(() => {
+        setSelectedWellId(wells[0].id);
+      });
+    }
+  }, [wells, selectedWellId]);
+
+  const {
+    points,
+    isLoading: isLoading,
+    error,
+  } = useChart({
+    wellId: selectedWellId ?? 0,
+  });
 
   const chartData: ChartData<'line'> = useMemo(
     () => ({

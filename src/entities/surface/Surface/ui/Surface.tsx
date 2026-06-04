@@ -11,23 +11,22 @@ interface SurfaceformGLTF extends GLTF {
 
 type SurfaceProps = ThreeElements['group'];
 
+const sandMaterial = new THREE.MeshStandardMaterial({
+  color: '#d2b48c',
+  roughness: 1.0,
+  metalness: 0.0,
+});
+
 export const Surface = (props: SurfaceProps): JSX.Element => {
   const { scene } = useGLTF('/model/surface.glb') as unknown as SurfaceformGLTF;
 
   const clonedScene = useMemo(() => {
     const clone = scene.clone();
 
-    const sandMaterial = new THREE.MeshStandardMaterial({
-      color: '#d2b48c',
-      roughness: 1.0,
-      metalness: 0.0,
-    });
-
     clone.traverse((child: THREE.Object3D) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
         child.receiveShadow = true;
-
         child.material = sandMaterial;
       }
     });

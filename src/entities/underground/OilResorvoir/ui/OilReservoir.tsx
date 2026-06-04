@@ -1,9 +1,8 @@
-import { type JSX } from 'react';
 import { type ThreeElements } from '@react-three/fiber';
 
 type OilReservoirProps = ThreeElements['group'];
 
-export const OilReservoir = (props: OilReservoirProps): JSX.Element => {
+export const OilReservoir = (props: OilReservoirProps) => {
   return (
     <group {...props}>
       <mesh scale={[1, 0.5, 1]} receiveShadow>

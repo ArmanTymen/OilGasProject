@@ -1,19 +1,6 @@
 import { useMemo } from 'react';
 import type { Node, Edge } from '@xyflow/react';
-
-interface Well {
-  id: number;
-  well: string;
-  pressure: number;
-  temperature: number;
-  debit: number;
-}
-
-interface Cluster {
-  id: number;
-  cluster: string;
-  wells: Well[];
-}
+import type { Cluster, Well } from '@/entities/well/model/types';
 
 export const useFieldMapData = (selectedCluster: Cluster | null | undefined) => {
   const nodes: Node[] = useMemo(() => {
@@ -36,6 +23,7 @@ export const useFieldMapData = (selectedCluster: Cluster | null | undefined) => 
         temperature: well.temperature,
         debit: well.debit,
         imageUrl: '/assets/fa3.png',
+        wellId: well.id,
       },
     }));
 

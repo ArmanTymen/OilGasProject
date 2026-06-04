@@ -1,4 +1,4 @@
-import { useState, useRef, type JSX } from 'react';
+import { useState, useRef } from 'react';
 import * as THREE from 'three';
 import s from './Model3D.module.css';
 import { WellTelemetryHud } from '@/widgets/3DModel/WellTelemetryHud';
@@ -8,11 +8,10 @@ import { useGetDrillingStreamQuery } from '@/entities/well';
 import { useMediaQuery } from 'react-responsive';
 import { MobileWellSchema } from '@/widgets/3DModel/MobileWellSchema';
 
-const Model3D = (): JSX.Element => {
+const Model3D = () => {
   const { data: wells = [], isLoading } = useGetDrillingStreamQuery();
   const [selectedWellId, setSelectedWellId] = useState<number>(2001);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const drillStringRef = useRef<THREE.Group>(null);
   const activeWell = wells.find((w) => w.id === selectedWellId);
 

@@ -36,8 +36,6 @@ export const DrillingBridge = React.memo(
       };
     }, [wellId]);
 
-    console.log('Рендер DrillingBridge (3D)');
-
     useFrame((_, delta) => {
       if (!drillStringRef.current) return;
 

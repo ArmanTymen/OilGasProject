@@ -1,7 +1,7 @@
-import type { WellDetail } from '@/entities/well';
+import type { SelectedWellExtended } from '@/entities/well/model/types';
 import { useMemo } from 'react';
 
-export const useWellDetail = (well: WellDetail | null) => {
+export const useWellDetail = (well: SelectedWellExtended | null) => {
   const detail = useMemo(() => {
     if (!well) return null;
 

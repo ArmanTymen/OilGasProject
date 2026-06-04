@@ -1,9 +1,9 @@
 import type { JSX, MouseEvent } from 'react';
-import type { Well } from '@/entities/well/model/types';
+import type { IDrillingWell } from '@/entities/well/model/types';
 import s from './WellSelectionModal.module.css';
 
 interface WellSelectionModalProps {
-  wells: Well[];
+  wells: IDrillingWell[];
   selectedWellId: number;
   onClose: () => void;
   onSelectWell: (id: number) => void;

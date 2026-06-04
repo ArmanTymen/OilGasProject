@@ -1,44 +1,24 @@
-import type { WellData } from '@/entities/well/model/types';
+import { selectFlattenedWells } from '@/entities/well/model/wellSelectors';
 import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-type RawWellFromData = WellData['clusters'][number]['wells'][number];
-
-export interface ExtendedWell extends RawWellFromData {
-  fieldName: string;
-  clusterName: string;
-}
-
-export const useWellData = (data: WellData[] | undefined) => {
+export const useWellData = () => {
   const [filterField, setFilterField] = useState('');
   const [filterCluster, setFilterCluster] = useState('');
   const [filterWell, setFilterWell] = useState('');
-  const allWells = useMemo((): ExtendedWell[] => {
-    return (
-      data?.flatMap((f) =>
-        f.clusters.flatMap((c) =>
-          c.wells.map((w) => ({
-            ...w,
-            fieldName: f.field,
-            clusterName: c.cluster,
-            pressure: Number(w.pressure.toFixed(2)),
-            temperature: Number(w.temperature.toFixed(2)),
-            flowRate: Number(w.flowRate.toFixed(2)),
-            debit: Number(w.debit.toFixed(2)),
-            I: Number(w.I.toFixed(2)),
-            U: Number(w.U.toFixed(2)),
-          })),
-        ),
-      ) || []
-    );
-  }, [data]);
+
+  const allWells = useSelector(selectFlattenedWells);
 
   const filteredWells = useMemo(() => {
-    return allWells.filter(
-      (well) =>
-        (filterField === '' || well.fieldName === filterField) &&
-        (filterCluster === '' || well.clusterName === filterCluster) &&
-        (filterWell === '' || well.well.toLowerCase().includes(filterWell.toLowerCase())),
-    );
+    return allWells.filter((well) => {
+      const matchField = !filterField || well.fieldName === filterField;
+
+      const matchCluster = !filterCluster || well.clusterName === filterCluster;
+
+      const matchWell = !filterWell || well.well.toLowerCase().includes(filterWell.toLowerCase());
+
+      return matchField && matchCluster && matchWell;
+    });
   }, [allWells, filterField, filterCluster, filterWell]);
 
   return {

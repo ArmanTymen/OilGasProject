@@ -1,8 +1,9 @@
+import type { Cluster } from '@/entities/well/model/types';
 import { useFieldMapData } from '@/widgets/Field2DMap/model/useFieldMapData';
 import { useMemo } from 'react';
 
 export const useFieldMapNodes = (
-  selectedCluster: Parameters<typeof useFieldMapData>[0],
+  selectedCluster: Cluster | null | undefined,
   setSelectedWellId: (id: number | null) => void,
 ) => {
   const { nodes, edges } = useFieldMapData(selectedCluster);
@@ -15,7 +16,7 @@ export const useFieldMapNodes = (
             ...node,
             data: {
               ...node.data,
-              onClick: () => setSelectedWellId(Number((node.id as string).replace('fa-', ''))),
+              onClick: () => setSelectedWellId(node.data.wellId as number),
             },
           };
         }

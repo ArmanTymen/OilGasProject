@@ -1,4 +1,4 @@
-import { useMemo, type JSX } from 'react';
+import { useMemo } from 'react';
 import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
 import { type GLTF } from 'three-stdlib';
@@ -11,7 +11,7 @@ interface RigformGLTF extends GLTF {
 
 type RigProps = ThreeElements['group'];
 
-export const Rig = (props: RigProps): JSX.Element => {
+export const Rig = (props: RigProps) => {
   const { scene } = useGLTF('/model/rigg.glb') as unknown as RigformGLTF;
 
   const clonedScene = useMemo(() => {

@@ -1,7 +1,7 @@
-import type { Well } from '@/entities/well/model/types';
+import type { IDrillingWell } from '@/entities/well/model/types';
 import s from './WellTelemetryHud.module.css';
 interface WellTelemetryHudProps {
-  activeWell: Well;
+  activeWell: IDrillingWell;
   onOpenModal: () => void;
   wellsCount: number;
   isTablet?: boolean;

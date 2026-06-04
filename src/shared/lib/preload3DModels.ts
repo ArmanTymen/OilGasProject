@@ -1,20 +1,26 @@
 import { useGLTF } from '@react-three/drei';
 
-export function preload3DModels() {
-  useGLTF.preload('/model/bit.glb');
-  useGLTF.preload('/model/gr.glb');
-  useGLTF.preload('/model/canteen_building.glb');
-  useGLTF.preload('/model/container.glb');
-  useGLTF.preload('/model/containers.glb');
-  useGLTF.preload('/model/gr.glb');
-  useGLTF.preload('/model/main_platform.glb');
-  useGLTF.preload('/model/pump.glb');
-  useGLTF.preload('/model/rigg.glb');
-  useGLTF.preload('/model/surface.glb');
-  useGLTF.preload('/model/tank_finally.glb');
-  useGLTF.preload('/model/trucks.glb');
-  useGLTF.preload('/model/rump1.glb');
-  useGLTF.preload('/model/worker.glb');
-  useGLTF.preload('/model/bit.glb');
-  useGLTF.preload('/model/tubes.glb');
+const MODELS_PATHS = [
+  '/model/bit.glb',
+  '/model/canteen_building.glb',
+  '/model/container.glb',
+  '/model/containers.glb',
+  '/model/gr.glb',
+  '/model/main_platform.glb',
+  '/model/pump.glb',
+  '/model/rigg.glb',
+  '/model/surface.glb',
+  '/model/tank_finally.glb',
+  '/model/trucks.glb',
+  '/model/rump1.glb',
+  '/model/worker.glb',
+  '/model/tubes.glb',
+];
+
+export function preload3DModels(): void {
+  MODELS_PATHS.forEach((path, index) => {
+    setTimeout(() => {
+      useGLTF.preload(path);
+    }, index * 150);
+  });
 }

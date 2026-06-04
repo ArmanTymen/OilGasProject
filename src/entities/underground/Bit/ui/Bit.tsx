@@ -1,4 +1,4 @@
-import { useMemo, type JSX } from 'react';
+import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
 import { type GLTF } from 'three-stdlib';
@@ -11,11 +11,12 @@ interface BitformGLTF extends GLTF {
 
 type BitProps = ThreeElements['group'];
 
-export const Bit = (props: BitProps): JSX.Element => {
+export const Bit = (props: BitProps) => {
   const { scene } = useGLTF('/model/bit.glb') as unknown as BitformGLTF;
-
-  const clonedScene = useMemo(() => {
+  const { clonedScene, customMaterials } = useMemo(() => {
     const clone = scene.clone();
+
+    const trackedMaterials: THREE.Material[] = [];
 
     clone.traverse((child: THREE.Object3D) => {
       if (child instanceof THREE.Mesh) {
@@ -33,6 +34,9 @@ export const Bit = (props: BitProps): JSX.Element => {
             clonedMat.emissiveIntensity = 0.15;
             clonedMat.metalness = 0.9;
             clonedMat.roughness = 0.4;
+
+            trackedMaterials.push(clonedMat);
+
             return clonedMat;
           }
           return mat;
@@ -42,8 +46,16 @@ export const Bit = (props: BitProps): JSX.Element => {
       }
     });
 
-    return clone;
+    return { clonedScene: clone, customMaterials: trackedMaterials };
   }, [scene]);
+
+  useEffect(() => {
+    return () => {
+      customMaterials.forEach((mat: THREE.Material) => {
+        mat.dispose();
+      });
+    };
+  }, [customMaterials]);
 
   return (
     <group {...props} dispose={null}>

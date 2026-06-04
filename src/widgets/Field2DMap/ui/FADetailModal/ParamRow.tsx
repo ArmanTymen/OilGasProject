@@ -1,19 +1,17 @@
 import { Typography } from '@mui/material';
 import s from './FADetailModal.module.css';
 
-export const ParamRow = ({
-  label,
-  value,
-  nominal,
-  unit,
-}: {
+interface ParamRowProps {
   label: string;
   value?: number;
   nominal?: number;
   unit?: string;
-}) => {
+}
+
+export const ParamRow = ({ label, value, nominal, unit }: ParamRowProps) => {
   if (value === undefined || value === null) return null;
-  const dev = nominal ? ((value - nominal) / nominal) * 100 : 0;
+
+  const dev = nominal && nominal !== 0 ? ((value - nominal) / nominal) * 100 : 0;
   const color = dev > 0 ? '#c62828' : dev < 0 ? '#2e7d32' : '#000';
 
   return (

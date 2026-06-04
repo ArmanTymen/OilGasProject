@@ -1,4 +1,4 @@
-import { useMemo, type JSX } from 'react';
+import { useMemo } from 'react';
 import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
 import { type GLTF } from 'three-stdlib';
@@ -11,7 +11,7 @@ interface GroundGLTF extends GLTF {
 
 type GroundProps = ThreeElements['group'];
 
-export const Ground = (props: GroundProps): JSX.Element => {
+export const Ground = (props: GroundProps) => {
   const { scene } = useGLTF('/model/gr.glb') as unknown as GroundGLTF;
 
   const clonedScene = useMemo(() => {
