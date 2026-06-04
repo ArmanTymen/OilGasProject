@@ -1,5 +1,6 @@
 import { ReactFlow, Background, Controls } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import { CircularProgress, Box } from '@mui/material'; // Добавил нормальный лоадер, если используешь MUI
 import { AGZNode } from '../AGZNode/AGZNode';
 import { FANode } from '../FANode/FANode';
 import { FADetailModal } from '../FADetailModal/FADetailModal';
@@ -23,14 +24,13 @@ export const FieldMap2D = () => {
 
   const { nodesWithClick, edges } = useFieldMapNodes(selectedCluster, setSelectedWellId);
 
-  if (isLoading) return <div className={s.loader}>Загрузка данных...</div>;
-
   return (
     <div className={s.root}>
       <div className={s.controls}>
         <select
           className={s.select}
           value={selectedFieldId ?? ''}
+          disabled={isLoading}
           onChange={(e) => {
             setSelectedFieldId(e.target.value ? Number(e.target.value) : null);
             setSelectedClusterId(null);
@@ -47,7 +47,7 @@ export const FieldMap2D = () => {
 
         <select
           className={s.select}
-          disabled={!selectedFieldId}
+          disabled={!selectedFieldId || isLoading}
           value={selectedClusterId ?? ''}
           onChange={(e) => {
             setSelectedClusterId(e.target.value ? Number(e.target.value) : null);
@@ -64,10 +64,13 @@ export const FieldMap2D = () => {
       </div>
 
       <div className={s.grid}>
-        {!selectedClusterId && (
+        {isLoading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+            <CircularProgress size={40} />
+          </Box>
+        ) : !selectedClusterId ? (
           <p className={s.placeholder}>Выберите куст, чтобы увидеть скважины</p>
-        )}
-        {selectedCluster && (
+        ) : selectedCluster ? (
           <ReactFlow
             nodes={nodesWithClick}
             edges={edges}
@@ -83,8 +86,9 @@ export const FieldMap2D = () => {
             <Background />
             <Controls />
           </ReactFlow>
-        )}
+        ) : null}
       </div>
+
       <FADetailModal
         well={selectedWell}
         open={!!selectedWell}

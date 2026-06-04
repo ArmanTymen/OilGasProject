@@ -5,11 +5,7 @@ export const store = configureStore({
   reducer: {
     [wellApi.reducerPath]: wellApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      immutableCheck: false,
-      serializableCheck: false,
-    }).concat(wellApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(wellApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

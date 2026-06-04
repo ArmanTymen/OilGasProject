@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   Chart as ChartJS,
   LineElement,
@@ -16,7 +16,7 @@ import { Line } from 'react-chartjs-2';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import s from './ProductionChart.module.css';
 import { useChart } from '../model/useChart';
-import { useGetDrillingStreamQuery } from '@/entities/well';
+import { CircularProgress, Box } from '@mui/material';
 
 ChartJS.register(
   LineElement,
@@ -30,27 +30,7 @@ ChartJS.register(
 );
 
 export const ProductionChart = () => {
-  const { data: wells } = useGetDrillingStreamQuery();
-  const [selectedWellId, setSelectedWellId] = useState<number | null>(() => {
-    return wells?.[0]?.id ?? null;
-  });
-
-  useEffect(() => {
-    if (wells?.length && selectedWellId === null) {
-      // Микрозадача переносит setState в конец текущего цикла рендера
-      queueMicrotask(() => {
-        setSelectedWellId(wells[0].id);
-      });
-    }
-  }, [wells, selectedWellId]);
-
-  const {
-    points,
-    isLoading: isLoading,
-    error,
-  } = useChart({
-    wellId: selectedWellId ?? 0,
-  });
+  const { points, isLoading, error } = useChart();
 
   const chartData: ChartData<'line'> = useMemo(
     () => ({
@@ -61,9 +41,9 @@ export const ProductionChart = () => {
           data: points.map((p) => p.actual),
           borderColor: '#4CAF50',
           backgroundColor: 'rgba(76, 175, 80, 0.1)',
-          tension: 0.3,
+          tension: 0.1,
           fill: true,
-          pointRadius: 0,
+          pointRadius: 2,
           pointHoverRadius: 5,
           borderWidth: 2,
           spanGaps: false,
@@ -73,7 +53,7 @@ export const ProductionChart = () => {
           data: points.map((p) => p.plan),
           borderColor: '#2196F3',
           backgroundColor: 'transparent',
-          tension: 0.3,
+          tension: 0.1,
           fill: false,
           pointRadius: 0,
           pointHoverRadius: 5,
@@ -160,14 +140,44 @@ export const ProductionChart = () => {
     [],
   );
 
-  if (isLoading) return <div className={s.status}>Загрузка аналитики...</div>;
-  if (error) return <div className={`${s.status} ${s.error}`}>Ошибка загрузки данных</div>;
-  if (points.length === 0) return <div className={s.status}>Нет данных для отображения</div>;
-
   return (
     <div className={s.root}>
       <div className={s.chartWrapper}>
-        <Line data={chartData} options={chartOptions} />
+        {isLoading ? (
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+            gap={2}
+          >
+            <CircularProgress size={40} style={{ color: '#4CAF50' }} />
+            <span style={{ color: '#6b7280' }}>Загрузка аналитики...</span>
+          </Box>
+        ) : error ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+            color="#dc2626"
+          >
+            Ошибка загрузки данных
+          </Box>
+        ) : points.length === 0 ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+            color="#6b7280"
+          >
+            Нет данных для отображения
+          </Box>
+        ) : (
+          <Line data={chartData} options={chartOptions} />
+        )}
       </div>
     </div>
   );

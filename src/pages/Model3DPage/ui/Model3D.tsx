@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import * as THREE from 'three';
+import { CircularProgress, Box } from '@mui/material';
 import s from './Model3D.module.css';
 import { WellTelemetryHud } from '@/widgets/3DModel/WellTelemetryHud';
 import { WellVisualizer } from '@/widgets/3DModel/WellVisualizer';
@@ -13,6 +14,7 @@ const Model3D = () => {
   const [selectedWellId, setSelectedWellId] = useState<number>(2001);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const drillStringRef = useRef<THREE.Group>(null);
+
   const activeWell = wells.find((w) => w.id === selectedWellId);
 
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
@@ -22,13 +24,9 @@ const Model3D = () => {
     return <MobileWellSchema wellId={selectedWellId} />;
   }
 
-  if (isLoading) {
-    return <div className={s.loader}>Загрузка данных телеметрии...</div>;
-  }
-
   return (
     <div className={s.page}>
-      {activeWell && (
+      {!isLoading && activeWell && (
         <WellTelemetryHud
           activeWell={activeWell}
           onOpenModal={() => setIsModalOpen(true)}
@@ -39,12 +37,31 @@ const Model3D = () => {
       )}
 
       <section className={s.canvasContainer}>
-        <WellVisualizer
-          wellId={selectedWellId}
-          drillStringRef={drillStringRef}
-          isTablet={isTablet}
-          isMobile={isMobile}
-        />
+        {isLoading ? (
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+            width="100%"
+            bgcolor="#111"
+            color="#fff"
+            gap={2}
+          >
+            <CircularProgress size={40} sx={{ color: '#ff6600' }} />
+            <span style={{ color: '#9ca3af', fontSize: '14px' }}>
+              Загрузка данных телеметрии...
+            </span>
+          </Box>
+        ) : (
+          <WellVisualizer
+            wellId={selectedWellId}
+            drillStringRef={drillStringRef}
+            isTablet={isTablet}
+            isMobile={isMobile}
+          />
+        )}
       </section>
 
       {isModalOpen && (
