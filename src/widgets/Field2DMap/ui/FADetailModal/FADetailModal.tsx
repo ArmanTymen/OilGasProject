@@ -2,10 +2,10 @@ import { Box, Typography, Modal, Button } from '@mui/material';
 import s from './FADetailModal.module.css';
 import { useWellDetail } from './model/useWellDetail';
 import { ParamRow } from './ParamRow';
-import type { WellDetail } from '@/entities/well';
+import type { SelectedWellExtended } from '@/entities/well/model/types';
 
 interface FADetailModalProps {
-  well: WellDetail | null;
+  well: SelectedWellExtended | null;
   open: boolean;
   onClose: () => void;
 }

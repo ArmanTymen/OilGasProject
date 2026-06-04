@@ -1,4 +1,4 @@
-import type { ExtendedWell } from '@/widgets/Table/model/useWellData';
+import type { ExtendedWell } from '@/entities/well/model/types';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 

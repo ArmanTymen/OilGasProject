@@ -1,23 +1,15 @@
 import React from 'react';
 import { TableRow, TableCell } from '@mui/material';
+import type { ExtendedWell } from '@/entities/well/model/types';
 
 interface WellRowProps {
-  well: {
-    well: string;
-    fieldName: string;
-    clusterName: string;
-    I: number;
-    U: number;
-    pressure: number;
-    temperature: number;
-    debit: number;
-    flowRate: number;
-    nominalI: number;
-    nominalU: number;
-    nominalDebit: number;
-    nominalTemperature: number;
-    nominalPressure: number;
-    nominalFlowRate: number;
+  well: ExtendedWell & {
+    nominalI?: number;
+    nominalU?: number;
+    nominalDebit?: number;
+    nominalTemperature?: number;
+    nominalPressure?: number;
+    nominalFlowRate?: number;
   };
 }
 
@@ -29,8 +21,14 @@ const isDeviated = (actual: number, nominal: number): boolean => {
   return deviation > DEVIATION_THRESHOLD;
 };
 
-const Cell = ({ value, nominal }: { value: number; nominal?: number }) => {
+interface CellProps {
+  value: number;
+  nominal?: number;
+}
+
+const Cell = ({ value, nominal }: CellProps) => {
   const deviated = nominal !== undefined && isDeviated(value, nominal);
+
   return (
     <TableCell sx={deviated ? { color: '#d32f2f', fontWeight: 600 } : undefined}>
       {value.toFixed(2)}
@@ -44,6 +42,7 @@ export const WellRow = React.memo(({ well }: WellRowProps) => {
       <TableCell>{well.fieldName}</TableCell>
       <TableCell>{well.clusterName}</TableCell>
       <TableCell>{well.well}</TableCell>
+
       <Cell value={well.I} nominal={well.nominalI} />
       <Cell value={well.U} nominal={well.nominalU} />
       <Cell value={well.pressure} nominal={well.nominalPressure} />
@@ -53,3 +52,5 @@ export const WellRow = React.memo(({ well }: WellRowProps) => {
     </TableRow>
   );
 });
+
+WellRow.displayName = 'WellRow';

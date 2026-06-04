@@ -1,10 +1,10 @@
 import { getStatusColor, getStatusDisplayText } from '@/entities/well/lib/wellStatusUtils';
-import type { Well } from '@/entities/well';
+import type { IDrillingWell } from '@/entities/well';
 import s from './MobileWellHud.module.css';
 
 interface MobileWellHudProps {
-  activeWell: Well;
-  wells: Well[];
+  activeWell: IDrillingWell;
+  wells: IDrillingWell[];
   selectedWellId: number;
   onWellChange: (id: number) => void;
 }

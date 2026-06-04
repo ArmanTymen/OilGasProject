@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useGetAnalyticsQuery } from '@/entities/well/api/wellApi';
+import { useGetDrillingStreamQuery } from '@/entities/well/api/wellApi';
 
 export interface ChartPoint {
   time: string;
@@ -7,64 +7,90 @@ export interface ChartPoint {
   plan: number;
 }
 
-export const useChart = () => {
-  const { data, isLoading, error } = useGetAnalyticsQuery();
-  const [points, setPoints] = useState<ChartPoint[]>([]);
+interface UseChartProps {
+  wellId: number;
+}
 
-  const isInitialized = useRef<boolean>(false);
-  const latestData = useRef<{ actual: number; plan: number } | null>(null);
+export const useChart = ({ wellId }: UseChartProps) => {
+  const { data: drillingWells, isLoading, error } = useGetDrillingStreamQuery();
+  const [points, setPoints] = useState<ChartPoint[]>([]);
+  const isHistoryGenerated = useRef<boolean>(false);
+
+  const latestMetrics = useRef<{ actual: number; plan: number }>({ actual: 0, plan: 0 });
 
   useEffect(() => {
-    if (data) {
-      latestData.current = {
-        actual: data.totalActual,
-        plan: data.totalPlan,
+    if (!drillingWells) return;
+
+    const activeWell = drillingWells.find((w) => w.id === wellId);
+
+    if (activeWell) {
+      latestMetrics.current = {
+        actual: activeWell.pumpPressure,
+        plan: activeWell.limits?.maxPumpPressure || 150,
       };
     }
-  }, [data]);
+  }, [drillingWells, wellId]);
 
   useEffect(() => {
-    if (!data || isInitialized.current) return;
+    if (!drillingWells || isHistoryGenerated.current) return;
 
-    const now = Date.now();
-    const initialPoints: ChartPoint[] = [];
-    const targetActual = data.totalActual;
-    const targetPlan = data.totalPlan;
+    const initTimeoutId = setTimeout(() => {
+      const now = Date.now();
+      const initialPoints: ChartPoint[] = [];
+      const targetActual = latestMetrics.current.actual;
+      const targetPlan = latestMetrics.current.plan;
 
-    const startValue = Math.max(0, targetActual - 5000);
-    const historyLength = 60;
+      const startValue = Math.max(0, targetActual - 20);
+      const historyLength = 60;
+      const stepIntervalMs = 5000;
 
-    for (let i = historyLength; i >= 0; i--) {
-      const time = new Date(now - i * 5000).toLocaleTimeString('ru-RU', { hour12: false });
-      const progress = 1 - i / historyLength;
-      const actualVal = startValue + (targetActual - startValue) * progress;
+      for (let i = historyLength; i >= 0; i--) {
+        const time = new Date(now - i * stepIntervalMs).toLocaleTimeString('ru-RU', {
+          hour12: false,
+        });
+        const progress = 1 - i / historyLength;
+        const actualVal = startValue + (targetActual - startValue) * progress;
 
-      initialPoints.push({
-        time,
-        actual: Math.round(actualVal),
-        plan: targetPlan,
-      });
-    }
+        initialPoints.push({
+          time,
+          actual: Math.round(actualVal),
+          plan: targetPlan,
+        });
+      }
 
-    setTimeout(() => setPoints(initialPoints), 0);
-    isInitialized.current = true;
+      setPoints(initialPoints);
+      isHistoryGenerated.current = true;
+    }, 0);
 
-    const interval = setInterval(() => {
-      setPoints((prev) => {
-        if (!latestData.current) return prev;
+    const intervalId = setInterval(() => {
+      const timeStr = new Date().toLocaleTimeString('ru-RU', { hour12: false });
 
-        const newPoint: ChartPoint = {
-          time: new Date().toLocaleTimeString('ru-RU', { hour12: false }),
-          actual: latestData.current.actual,
-          plan: latestData.current.plan,
+      setPoints((prevPoints) => {
+        if (prevPoints.length === 0) return prevPoints;
+
+        const nextPoint: ChartPoint = {
+          time: timeStr,
+          actual: latestMetrics.current.actual,
+          plan: latestMetrics.current.plan,
         };
-
-        return [...prev.slice(-199), newPoint];
+        return [...prevPoints.slice(-199), nextPoint];
       });
     }, 5000);
 
-    return () => clearInterval(interval);
-  }, [data]);
+    return () => {
+      clearTimeout(initTimeoutId);
+      clearInterval(intervalId);
+    };
+  }, [drillingWells]);
+
+  useEffect(() => {
+    if (wellId === 0 || !wellId) return;
+
+    isHistoryGenerated.current = false;
+    requestAnimationFrame(() => {
+      setPoints((prev) => (prev.length === 0 ? prev : []));
+    });
+  }, [wellId]);
 
   return { points, isLoading, error };
 };

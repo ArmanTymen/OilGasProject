@@ -57,7 +57,6 @@ export const WellScene = ({
       }}
     >
       <Suspense fallback={null}>
-        {/* {!isTablet && <Perf />} */}
         <Perf />
         <PerspectiveCamera makeDefault position={[25, 30, 40]} fov={45} />
 

@@ -1,4 +1,4 @@
-import { useRef, useEffect, type JSX } from 'react';
+import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, type ThreeElements } from '@react-three/fiber';
 import { Bit } from '@/entities/underground/Bit';
@@ -11,7 +11,7 @@ type DrillStringProps = ThreeElements['group'] & {
   wellId: number;
 };
 
-export const DrillString = ({ wellId, ...props }: DrillStringProps): JSX.Element => {
+export const DrillString = ({ wellId, ...props }: DrillStringProps) => {
   const stringGroupRef = useRef<THREE.Group>(null);
   const pipeMeshRef = useRef<THREE.Mesh>(null);
   const bitGroupRef = useRef<THREE.Group>(null);

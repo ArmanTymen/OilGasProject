@@ -1,4 +1,3 @@
-import { type JSX } from 'react';
 import * as THREE from 'three';
 import { type ThreeElements } from '@react-three/fiber';
 
@@ -7,7 +6,7 @@ type EnvironmentMaskProps = ThreeElements['group'];
 const MASK_SIZE = 1000;
 const HALF_SIZE = MASK_SIZE / 2;
 
-export const EnvironmentMask = (props: EnvironmentMaskProps): JSX.Element => {
+export const EnvironmentMask = (props: EnvironmentMaskProps) => {
   return (
     <group {...props}>
       <mesh position={[0, 1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>

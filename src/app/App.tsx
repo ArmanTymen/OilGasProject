@@ -5,12 +5,27 @@ import { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
+    const run = async (): Promise<void> => {
+      try {
+        const mod = await import('@/shared/lib/preload3DModels');
+
+        mod.preload3DModels();
+      } catch (error) {
+        console.error('[Preload] Критическая ошибка:', error);
+      }
+    };
+
     if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => {
-        import('@/shared/lib/preload3DModels');
-      });
+      window.requestIdleCallback(
+        () => {
+          void run();
+        },
+        { timeout: 5000 },
+      );
     } else {
-      setTimeout(() => import('@/shared/lib/preload3DModels'), 3000);
+      setTimeout(() => {
+        void run();
+      }, 5000);
     }
   }, []);
 

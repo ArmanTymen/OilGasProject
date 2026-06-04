@@ -1,7 +1,6 @@
-import { type JSX } from 'react';
 import { Environment } from '@react-three/drei';
 
-export const SceneEnvironment = (): JSX.Element => {
+export const SceneEnvironment = () => {
   return (
     <>
       <color attach="background" args={['#8fb6d6']} />

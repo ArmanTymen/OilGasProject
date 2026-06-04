@@ -1,7 +1,6 @@
-import { useMemo, type JSX } from 'react';
+import { useMemo } from 'react';
 import { type ThreeElements } from '@react-three/fiber';
 import * as THREE from 'three';
-
 import { Surface } from '@/entities/surface/Surface/ui/Surface';
 import { TankModel } from '@/entities/surface/TankModel/ui/TankModel';
 import { Tubes } from '@/entities/underground/Tubes/ui/Tubes';
@@ -19,7 +18,7 @@ type MainSceneProps = ThreeElements['group'] & {
   isTablet?: boolean;
 };
 
-export const MainScene = ({ isTablet, ...props }: MainSceneProps): JSX.Element => {
+export const MainScene = ({ isTablet, ...props }: MainSceneProps) => {
   const thickPipeCurve = useMemo(() => {
     return new THREE.LineCurve3(
       new THREE.Vector3(-14.31, 4.51, 8.3),

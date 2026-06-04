@@ -16,8 +16,6 @@ import TableFilters from '@widgets/Table/ui/TableFilters/TableFilters';
 import { WellRow } from '@widgets/Table/ui/WellRow/WellRow';
 
 function WellTable(): ReactElement {
-  'use no memo';
-
   const { data, error, isLoading } = useGetWellStreamQuery();
   const parentRef = useRef<HTMLDivElement>(null);
   const {
@@ -29,7 +27,7 @@ function WellTable(): ReactElement {
     filterField,
     filterCluster,
     filterWell,
-  } = useWellData(data);
+  } = useWellData();
 
   // Точечно отключаем реальное правило React 19 для несовместимых библиотек
   // eslint-disable-next-line react-hooks/incompatible-library

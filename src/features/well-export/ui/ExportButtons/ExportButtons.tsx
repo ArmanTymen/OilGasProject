@@ -2,9 +2,8 @@ import { Button, CircularProgress } from '@mui/material';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import DownloadIcon from '@mui/icons-material/Download';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import type { ExtendedWell } from '@widgets/Table/model/useWellData';
 import { useExportActions } from '../../model/useExportActions';
-
+import type { ExtendedWell } from '@/entities/well/model/types';
 interface ExportButtonsProps {
   filteredWells: ExtendedWell[];
   setFilterField: (e: string) => void;

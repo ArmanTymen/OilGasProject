@@ -1,30 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { IDrillingDelta, IDrillingWell, ProductionAnalytics, WellData } from '../model/types';
+import type { IDrillingDelta, IDrillingWell, WellData } from '../model/types';
 import { socketClient } from './socketClient';
-
-let lastExecution = 0;
-const FIVE_MINUTES = 5 * 60 * 1000;
-
-const calculateProduction = (fields: WellData[]): ProductionAnalytics => {
-  const actual = fields.reduce(
-    (acc, field) =>
-      acc +
-      field.clusters.reduce(
-        (cAcc, cluster) => cAcc + cluster.wells.reduce((wAcc, well) => wAcc + well.debit, 0),
-        0,
-      ),
-    0,
-  );
-
-  return {
-    totalActual: Number(actual.toFixed(2)),
-    totalPlan: 65500,
-  };
-};
+import { API_BASE_URL } from '@/shared/config/api';
 
 export const wellApi = createApi({
   reducerPath: 'wellApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001' }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     getWellStream: builder.query<WellData[], void>({
       query: () => `/fields`,
@@ -47,34 +28,6 @@ export const wellApi = createApi({
           socketClient.off('fields:update', handleFieldsUpdate);
         } catch (error) {
           console.error('WebSocket fields error:', error);
-        }
-      },
-    }),
-
-    getAnalytics: builder.query<ProductionAnalytics, void>({
-      query: () => '/fields',
-      transformResponse: (response: WellData[]) => calculateProduction(response),
-      async onCacheEntryAdded(_arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
-        try {
-          await cacheDataLoaded;
-
-          const handleAnalyticsUpdate = (updateFields: WellData[]) => {
-            const now = Date.now();
-            if (now - lastExecution > FIVE_MINUTES) {
-              updateCachedData((draft) => {
-                const result = calculateProduction(updateFields);
-                draft.totalActual = result.totalActual;
-                lastExecution = now;
-              });
-            }
-          };
-
-          socketClient.on('fields:update', handleAnalyticsUpdate);
-
-          await cacheEntryRemoved;
-          socketClient.off('fields:update', handleAnalyticsUpdate);
-        } catch (error) {
-          console.error('WebSocket analytics error:', error);
         }
       },
     }),
@@ -112,4 +65,4 @@ export const wellApi = createApi({
   }),
 });
 
-export const { useGetWellStreamQuery, useGetAnalyticsQuery, useGetDrillingStreamQuery } = wellApi;
+export const { useGetWellStreamQuery, useGetDrillingStreamQuery } = wellApi;
