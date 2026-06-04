@@ -1,4 +1,4 @@
-import { selectFlattenedWells } from '@/entities/well/model/wellSelectors';
+import { selectFlattenedWells } from '@/entities/well/selectors/wellSelectors';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 

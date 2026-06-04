@@ -2,7 +2,7 @@ import { Paper, Typography, Skeleton } from '@mui/material';
 import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 import s from './DashboardCards.module.css';
 import { useSelector } from 'react-redux';
-import { selectDashboardMetrics } from '@/entities/well/model/wellSelectors';
+import { selectDashboardMetrics } from '@/entities/well/selectors/wellSelectors';
 
 export const DashboardCards = () => {
   const { isLoading } = useGetWellStreamQuery();

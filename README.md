@@ -10,7 +10,7 @@
 - **Фреймворк:** React 19
 - **Стейт-менеджмент:** Redux Toolkit, RTK Query
 - **3D‑визуализация:** Three.js, React Three Fiber
-- **2D‑визуализация:** PixiJS
+- **2D‑визуализация:** xyflow/react
 - **Графики:** Chart.js, react-chartjs-2
 - **Таблица:** TanStack Virtualizer, Material-UI
 - **Сборка:** Vite

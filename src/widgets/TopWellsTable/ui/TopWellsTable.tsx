@@ -12,13 +12,12 @@ import {
 } from '@mui/material';
 import styles from './TopWellsTable.module.css';
 import { useSelector } from 'react-redux';
-import { selectTop5Wells } from '@/entities/well/model/wellSelectors';
+import { selectTop5Wells } from '@/entities/well/selectors/wellSelectors';
 
 export const TopWellsTable = () => {
   const { isLoading } = useGetWellStreamQuery();
   const top5 = useSelector(selectTop5Wells);
 
-  // Находим максимум только из 5 элементов, а не из всего массива скважин
   const maxDebit = top5.length > 0 ? Math.max(...top5.map((w) => w.debit)) : 1;
 
   if (isLoading || top5.length === 0) return null;
@@ -26,7 +25,7 @@ export const TopWellsTable = () => {
   return (
     <section className={styles.root}>
       <Typography variant="h6" gutterBottom>
-        Скважины по maximalьному дебиту
+        Скважины по максимальному дебиту
       </Typography>
       <TableContainer component={Paper}>
         <Table size="small">

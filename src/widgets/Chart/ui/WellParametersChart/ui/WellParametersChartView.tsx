@@ -10,8 +10,10 @@ import {
   Legend,
   Filler,
   type ChartOptions,
+  type ChartData,
 } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import { CircularProgress, Box } from '@mui/material';
 import { useWellParametersData } from '../model/useWellParametersData';
 import s from './WellParametersChartView.module.css';
 
@@ -26,15 +28,15 @@ ChartJS.register(
   zoomPlugin,
 );
 
-interface Props {
+interface WellParametersChartViewProps {
   wellId: number | null;
   paramType: 'pressure' | 'gas' | 'rpm';
 }
 
-export const WellParametersChartView = ({ wellId, paramType }: Props) => {
+export const WellParametersChartView = ({ wellId, paramType }: WellParametersChartViewProps) => {
   const { points, isLoading } = useWellParametersData(wellId, paramType);
 
-  const chartData = useMemo(() => {
+  const chartData: ChartData<'line'> = useMemo(() => {
     const label =
       paramType === 'pressure'
         ? 'Давление (атм)'
@@ -76,10 +78,7 @@ export const WellParametersChartView = ({ wellId, paramType }: Props) => {
       scales: {
         y: {
           beginAtZero: false,
-          grid: {
-            color: 'rgba(200,200,200,0.2)',
-            drawBorder: true,
-          },
+          grid: { color: 'rgba(200,200,200,0.2)' },
           title: {
             display: true,
             text: paramType === 'pressure' ? 'атм' : paramType === 'gas' ? '%' : 'RPM',
@@ -87,27 +86,41 @@ export const WellParametersChartView = ({ wellId, paramType }: Props) => {
         },
         x: {
           offset: true,
-          grid: {
-            color: 'rgba(200,200,200,0.1)',
-            drawTicks: true,
-          },
-          title: {
-            display: true,
-            text: 'Время',
-          },
+          grid: { color: 'rgba(200,200,200,0.1)' },
+          title: { display: true, text: 'Время' },
         },
       },
     }),
     [paramType],
   );
 
-  if (isLoading) return <div className={s.loader}>Загрузка истории...</div>;
-  if (!wellId || points.length === 0)
-    return <div className={s.noData}>Нет данных для отображения</div>;
-
   return (
     <div className={s.chartContainer}>
-      <Line data={chartData} options={chartOptions} />
+      {isLoading ? (
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          height="100%"
+          gap={2}
+        >
+          <CircularProgress size={40} style={{ color: '#ff6600' }} />
+          <span style={{ color: '#6b7280', fontSize: '14px' }}>Загрузка истории...</span>
+        </Box>
+      ) : !wellId || points.length === 0 ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height="100%"
+          color="#6b7280"
+        >
+          Нет данных для отображения
+        </Box>
+      ) : (
+        <Line data={chartData} options={chartOptions} />
+      )}
     </div>
   );
 };

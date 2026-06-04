@@ -11,7 +11,7 @@ function App() {
 
         mod.preload3DModels();
       } catch (error) {
-        console.error('[Preload] Критическая ошибка:', error);
+        console.error('[Preload] Model preload failed:', error);
       }
     };
 

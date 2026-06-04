@@ -8,6 +8,8 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  CircularProgress,
+  Box,
 } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import s from './WellTable.module.css';
@@ -16,7 +18,7 @@ import TableFilters from '@widgets/Table/ui/TableFilters/TableFilters';
 import { WellRow } from '@widgets/Table/ui/WellRow/WellRow';
 
 function WellTable(): ReactElement {
-  const { data, error, isLoading } = useGetWellStreamQuery();
+  const { error, isLoading } = useGetWellStreamQuery();
   const parentRef = useRef<HTMLDivElement>(null);
   const {
     allWells,
@@ -29,7 +31,6 @@ function WellTable(): ReactElement {
     filterWell,
   } = useWellData();
 
-  // Точечно отключаем реальное правило React 19 для несовместимых библиотек
   // eslint-disable-next-line react-hooks/incompatible-library
   const rowVirtualizer = useVirtualizer({
     count: filteredWells.length,
@@ -41,23 +42,19 @@ function WellTable(): ReactElement {
   const virtualRows = rowVirtualizer.getVirtualItems();
   const totalSize = rowVirtualizer.getTotalSize();
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
-
   return (
     <div className={s.root}>
-      {data && (
-        <TableFilters
-          allWells={allWells}
-          filteredWells={filteredWells}
-          filterField={filterField}
-          filterCluster={filterCluster}
-          filterWell={filterWell}
-          setFilterField={setFilterField}
-          setFilterCluster={setFilterCluster}
-          setFilterWell={setFilterWell}
-        />
-      )}
+      <TableFilters
+        allWells={allWells}
+        filteredWells={filteredWells}
+        filterField={filterField}
+        filterCluster={filterCluster}
+        filterWell={filterWell}
+        setFilterField={setFilterField}
+        setFilterCluster={setFilterCluster}
+        setFilterWell={setFilterWell}
+      />
+
       <TableContainer component={Paper} className={s.tableContainer} ref={parentRef}>
         <Table stickyHeader>
           <TableHead>
@@ -73,22 +70,50 @@ function WellTable(): ReactElement {
               <TableCell className={s.headerCell}>Расход</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {virtualRows.length > 0 && (
-              <TableRow className={s.spacerRow} style={{ height: `${virtualRows[0].start}px` }}>
-                <TableCell colSpan={9} style={{ padding: 0, border: 0 }} />
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={9} align="center" style={{ height: '400px' }}>
+                  <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
+                    <CircularProgress size={40} />
+                    <span>Загрузка данных скважин...</span>
+                  </Box>
+                </TableCell>
               </TableRow>
-            )}
-            {virtualRows.map((virtualRow) => (
-              <WellRow key={virtualRow.key} well={filteredWells[virtualRow.index]} />
-            ))}
-            {virtualRows.length > 0 && (
-              <TableRow
-                className={s.spacerRow}
-                style={{ height: `${totalSize - virtualRows[virtualRows.length - 1].end}px` }}
-              >
-                <TableCell colSpan={9} className={s.spacerCell} />
+            ) : error ? (
+              <TableRow>
+                <TableCell colSpan={9} align="center" style={{ height: '400px', color: 'red' }}>
+                  Ошибка при загрузке реестра
+                </TableCell>
               </TableRow>
+            ) : virtualRows.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={9} align="center" style={{ height: '400px' }}>
+                  Нет данных по заданным фильтрам
+                </TableCell>
+              </TableRow>
+            ) : (
+              <>
+                {virtualRows.length > 0 && (
+                  <TableRow className={s.spacerRow} style={{ height: `${virtualRows[0].start}px` }}>
+                    <TableCell colSpan={9} style={{ padding: 0, border: 0 }} />
+                  </TableRow>
+                )}
+
+                {virtualRows.map((virtualRow) => (
+                  <WellRow key={virtualRow.key} well={filteredWells[virtualRow.index]} />
+                ))}
+
+                {virtualRows.length > 0 && (
+                  <TableRow
+                    className={s.spacerRow}
+                    style={{ height: `${totalSize - virtualRows[virtualRows.length - 1].end}px` }}
+                  >
+                    <TableCell colSpan={9} className={s.spacerCell} />
+                  </TableRow>
+                )}
+              </>
             )}
           </TableBody>
         </Table>

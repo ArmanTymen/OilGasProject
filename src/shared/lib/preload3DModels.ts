@@ -1,6 +1,7 @@
 import { useGLTF } from '@react-three/drei';
 
-const MODELS_PATHS = [
+// Использование readonly гарантирует неизменяемость массива путей на уровне компиляции
+const MODELS_PATHS: readonly string[] = [
   '/model/bit.glb',
   '/model/canteen_building.glb',
   '/model/container.glb',
@@ -17,10 +18,17 @@ const MODELS_PATHS = [
   '/model/tubes.glb',
 ];
 
+/**
+ * Инициирует предзагрузку 3D-компонентов в кэш suspend-react.
+ * Вызовы распределяются во времени с шагом в 250 мс для предотвращения блокировки сетевого потока.
+ */
 export function preload3DModels(): void {
-  MODELS_PATHS.forEach((path, index) => {
+  MODELS_PATHS.forEach((path: string, index: number) => {
     setTimeout(() => {
+      // Первый аргумент: путь к файлу
+      // Второй аргумент (опционально): true или строка-путь к DRACO декодеру,
+      // если модели были сжаты в Blender через Draco Compression.
       useGLTF.preload(path);
-    }, index * 150);
+    }, index * 250);
   });
 }
