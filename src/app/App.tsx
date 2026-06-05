@@ -2,8 +2,15 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import AppRouter from './router/ui/AppRouter';
 import { useEffect } from 'react';
+import { useSocketStore } from '@/entities/well/model/socketStore';
+import AppInitializer from './AppInitializer';
 
 function App() {
+  const connect = useSocketStore((state) => state.connect);
+  useEffect(() => {
+    connect();
+  }, [connect]);
+
   useEffect(() => {
     const run = async (): Promise<void> => {
       try {
@@ -31,6 +38,7 @@ function App() {
 
   return (
     <Provider store={store}>
+      <AppInitializer />
       <AppRouter />
     </Provider>
   );

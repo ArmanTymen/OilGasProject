@@ -43,3 +43,5 @@ export const ChartPage = () => {
     </section>
   );
 };
+
+export default ChartPage;

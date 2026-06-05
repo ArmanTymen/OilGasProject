@@ -1,6 +1,5 @@
 import { Chart } from 'react-chartjs-2';
 import s from './FieldProductionChart.module.css';
-import { useFieldProductionData } from '../model/useFieldProductionData';
 import {
   buildFieldProductionChartData,
   fieldProductionChartOptions,
@@ -19,6 +18,8 @@ import {
   BarController,
   LineController,
 } from 'chart.js';
+import { selectFieldProductionWithStatus } from '@/entities/well/selectors/wellSelectors';
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
   BarElement,
@@ -34,7 +35,9 @@ ChartJS.register(
 );
 
 export const FieldProductionChart = () => {
-  const { labels, values, totalDebit, isLoading, error } = useFieldProductionData();
+  const { isLoading, error, labels, values, totalDebit } = useSelector(
+    selectFieldProductionWithStatus,
+  );
 
   if (isLoading) return <div className={s.status}>Загрузка...</div>;
   if (error) return <div className={`${s.status} ${s.error}`}>Ошибка загрузки</div>;

@@ -1,1 +1,1 @@
-export { default as Model3D } from './ui/Model3D';
+export { default } from './ui/Model3D';

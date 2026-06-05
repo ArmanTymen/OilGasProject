@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
-import { selectChartMetrics } from '@/entities/well/selectors/wellSelectors';
+import { selectChartWithStatus } from '@/entities/well/selectors/wellSelectors';
 
 export interface ChartPoint {
   time: string;
@@ -10,20 +9,19 @@ export interface ChartPoint {
 }
 
 export const useChart = () => {
-  const { isLoading, error } = useGetWellStreamQuery();
-  const metrics = useSelector(selectChartMetrics);
+  const { isLoading, error, totalActual, totalPlan } = useSelector(selectChartWithStatus);
   const [points, setPoints] = useState<ChartPoint[]>([]);
 
   useEffect(() => {
-    if (!metrics) return;
+    if (totalActual === undefined) return;
 
-    const actualValue = metrics.totalActual;
-    const planValue = metrics.totalPlan;
+    const actualValue = totalActual;
+    const planValue = totalPlan;
     const now = new Date();
     const timeStr = now.toLocaleTimeString('ru-RU', { hour12: false });
 
     queueMicrotask(() => {
-      setPoints((prevPoints: ChartPoint[]): ChartPoint[] => {
+      setPoints((prevPoints: ChartPoint[]) => {
         if (prevPoints.length === 0) {
           const initialHistory: ChartPoint[] = [];
 
@@ -55,7 +53,7 @@ export const useChart = () => {
         return [...prevPoints.slice(-199), { time: timeStr, actual: actualValue, plan: planValue }];
       });
     });
-  }, [metrics]);
+  }, [totalActual, totalPlan]);
 
   return { points, isLoading, error };
 };

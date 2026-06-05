@@ -2,8 +2,6 @@ import { NavLink } from 'react-router-dom';
 import s from './NavBar.module.css';
 
 function NavBar() {
-  const selectedWellId = 1;
-
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${s.link} ${s.activeLink}` : s.link;
 
@@ -19,7 +17,7 @@ function NavBar() {
         График
       </NavLink>
 
-      <NavLink title="3D Визуализация" to={`/model/${selectedWellId}`} className={getLinkClass}>
+      <NavLink title="3D Визуализация" to="/model/2001" className={getLinkClass}>
         3D Модель
       </NavLink>
 

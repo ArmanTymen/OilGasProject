@@ -1,9 +1,8 @@
-// model/useFieldMapState.ts
 import { useState, useMemo } from 'react';
-import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 import type { WellData } from '@/entities/well';
 import type { Cluster, SelectedWellExtended } from '@/entities/well/model/types';
-
+import { useSelector } from 'react-redux';
+import { selectWellQuery } from '@/entities/well/selectors/wellSelectors';
 interface FieldMapStateResult {
   data: WellData[] | undefined;
   isLoading: boolean;
@@ -18,7 +17,7 @@ interface FieldMapStateResult {
 }
 
 export const useFieldMapState = (): FieldMapStateResult => {
-  const { data, isLoading } = useGetWellStreamQuery();
+  const { data, isLoading } = useSelector(selectWellQuery);
   const [selectedFieldId, setSelectedFieldId] = useState<number | null>(null);
   const [selectedClusterId, setSelectedClusterId] = useState<number | null>(null);
   const [selectedWellId, setSelectedWellId] = useState<number | null>(null);

@@ -1,12 +1,11 @@
 import { Paper, Typography, Skeleton } from '@mui/material';
-import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 import s from './DashboardCards.module.css';
 import { useSelector } from 'react-redux';
-import { selectDashboardMetrics } from '@/entities/well/selectors/wellSelectors';
+import { selectDashboardWithStatus } from '@/entities/well/selectors/wellSelectors';
 
 export const DashboardCards = () => {
-  const { isLoading } = useGetWellStreamQuery();
-  const { totalActual, activeCount, criticalCount } = useSelector(selectDashboardMetrics);
+  const { isLoading, totalActual, activeCount, criticalCount } =
+    useSelector(selectDashboardWithStatus);
 
   if (isLoading) {
     return (

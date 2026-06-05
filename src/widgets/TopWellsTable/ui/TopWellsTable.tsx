@@ -1,4 +1,3 @@
-import { useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 import {
   Paper,
   Table,
@@ -12,11 +11,10 @@ import {
 } from '@mui/material';
 import styles from './TopWellsTable.module.css';
 import { useSelector } from 'react-redux';
-import { selectTop5Wells } from '@/entities/well/selectors/wellSelectors';
+import { selectTop5WithStatus } from '@/entities/well/selectors/wellSelectors';
 
 export const TopWellsTable = () => {
-  const { isLoading } = useGetWellStreamQuery();
-  const top5 = useSelector(selectTop5Wells);
+  const { isLoading, top5 } = useSelector(selectTop5WithStatus);
 
   const maxDebit = top5.length > 0 ? Math.max(...top5.map((w) => w.debit)) : 1;
 
