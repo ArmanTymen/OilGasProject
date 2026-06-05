@@ -1,1 +1,1 @@
-export { default as ChartPage } from './ui/ChartPage';
+export { default } from './ui/ChartPage';

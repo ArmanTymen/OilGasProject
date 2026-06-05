@@ -1,0 +1,69 @@
+.wellParametersContainer {
+  display: flex;
+  gap: 24px;
+  height: 500px;
+  width: 100%;
+}
+.wellListSidebar {
+  width: 260px;
+  flex-shrink: 0;
+}
+.chartArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.paramButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.paramBtn {
+  background: #f0f2f5;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.paramBtn.activeParam {
+  background: #ff6600;
+  color: white;
+}
+.loader,
+.noData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  background: #fff;
+  border-radius: 8px;
+  color: #666;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .wellParametersContainer {
+    flex-direction: column;
+    height: auto;
+  }
+  .wellListSidebar {
+    width: 100%;
+    max-height: 200px;
+    overflow-x: auto;
+  }
+  .wellListSidebar ul {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 8px;
+    white-space: nowrap;
+  }
+  .wellListSidebar li {
+    display: inline-block;
+  }
+  .chartArea {
+    margin-top: 16px;
+  }
+}

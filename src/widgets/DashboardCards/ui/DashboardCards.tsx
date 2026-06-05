@@ -1,14 +1,13 @@
 import { Paper, Typography, Skeleton } from '@mui/material';
-import { useGetAnalyticsQuery, useGetWellStreamQuery } from '@/entities/well/api/wellApi';
 import s from './DashboardCards.module.css';
+import { useSelector } from 'react-redux';
+import { selectDashboardWithStatus } from '@/entities/well/selectors/wellSelectors';
 
 export const DashboardCards = () => {
-  const { data: analyticsData, isLoading: analyticsLoading } = useGetAnalyticsQuery();
-  const { data: wellsData, isLoading: wellsLoading } = useGetWellStreamQuery('');
+  const { isLoading, totalActual, activeCount, criticalCount } =
+    useSelector(selectDashboardWithStatus);
 
-  const isLoading = analyticsLoading || wellsLoading;
-
-  if (isLoading || !analyticsData || !wellsData) {
+  if (isLoading) {
     return (
       <section className={s.dashboardGrid}>
         {[1, 2, 3].map((i) => (
@@ -21,18 +20,10 @@ export const DashboardCards = () => {
     );
   }
 
-  const allWells = wellsData.flatMap((f) => f.clusters).flatMap((c) => c.wells);
-
-  const activeWells = allWells.filter((w) => w.debit > 0).length;
-
-  const criticalWells = allWells.filter(
-    (w) => w.debit === 0 && w.pressure === 0 && w.temperature === 0,
-  ).length;
-
   const cards = [
-    { title: 'Суммарный дебит', value: `${analyticsData.totalActual} м³/сут`, color: '#4CAF50' },
-    { title: 'Фонд в работе', value: `${activeWells} ед.`, color: '#2196F3' },
-    { title: 'Аварийность', value: `${criticalWells} ед.`, color: '#f44336' },
+    { title: 'Суммарный дебит', value: `${totalActual} м³/сут`, color: '#4CAF50' },
+    { title: 'Фонд в работе', value: `${activeCount} ед.`, color: '#2196F3' },
+    { title: 'Аварийность', value: `${criticalCount} ед.`, color: '#f44336' },
   ];
 
   return (

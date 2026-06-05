@@ -1,0 +1,32 @@
+.container {
+  width: 300px;
+  height: 160px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.handle {
+  background: #ef4444;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  right: 25px !important;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: -45px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #b4d3fe;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  font-family: monospace;
+  color: #1e3a8a;
+}

@@ -25,12 +25,6 @@
   gap: 2rem;
 }
 
-.info {
-  font-weight: bold;
-  color: #4a5568;
-  text-align: center;
-}
-
 @media (max-width: 1024px) {
   .contentLayout {
     grid-template-columns: 1fr;

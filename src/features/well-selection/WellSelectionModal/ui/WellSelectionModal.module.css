@@ -1,0 +1,99 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 900px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: #fff;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 28px;
+  cursor: pointer;
+}
+.closeBtn:hover {
+  color: #fff;
+}
+
+.tableWrapper {
+  overflow-y: auto;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.wellsTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.wellsTable th,
+.wellsTable td {
+  padding: 12px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.wellsTable th {
+  background: #252525;
+  color: #aaa;
+}
+
+.activeRow {
+  background: rgba(250, 100, 0, 0.15);
+}
+
+.tableStatus {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.tableStatus[data-status='бурение'] {
+  background: rgba(0, 255, 0, 0.1);
+  color: #0f6;
+}
+.tableStatus[data-status='простой'] {
+  background: rgba(255, 0, 0, 0.1);
+  color: #f33;
+}
+
+.actionBtn {
+  background: #333;
+  border: 1px solid #555;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.actionBtn:hover {
+  background: #ff6600;
+  border-color: #ff6600;
+}

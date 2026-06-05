@@ -1,0 +1,68 @@
+.controlsContainer {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.controlBtn {
+  padding: 10px 20px;
+  background: #222222;
+  color: #ffffff;
+  border: 1px solid #555555;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.controlBtn:hover {
+  background: #333333;
+  border-color: #777777;
+}
+
+.btnActive {
+  background: #ff6600;
+  border-color: #ff6600;
+}
+
+.btnActive:hover {
+  background: #e05500;
+  border-color: #e05500;
+}
+
+/* tablet */
+.tabletControls {
+  top: 16px;
+  left: 16px;
+  gap: 12px;
+}
+.tabletControls .controlBtn {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .controlsContainer {
+    top: 16px;
+    left: 16px;
+    gap: 12px;
+  }
+  .controlBtn {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 767px) {
+  .controlsContainer {
+    display: none;
+  }
+}

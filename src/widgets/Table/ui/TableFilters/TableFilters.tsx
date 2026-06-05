@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import s from './TableFilters.module.css';
-import type { ExtendedWell } from '@widgets/Table/model/useWellData';
 import { ExportButtons } from '@/features/well-export';
+import type { ExtendedWell } from '@/entities/well/model/types';
 
 interface TableFiltersProps {
   allWells: ExtendedWell[];
