@@ -2,7 +2,6 @@ import { Suspense, useRef, type ReactNode } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
-import { Perf } from 'r3f-perf';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { Ground } from '@/entities/surface/Ground/ui/Ground';
 import { DrillString } from '@/entities/surface/DrillString';
@@ -57,7 +56,6 @@ export const WellScene = ({
       }}
     >
       <Suspense fallback={null}>
-        <Perf />
         <PerspectiveCamera makeDefault position={[25, 30, 40]} fov={45} />
 
         <OrbitControls
