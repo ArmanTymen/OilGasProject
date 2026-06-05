@@ -1,8 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { wellApi } from '../api/wellApi';
 import type { DashboardMetrics, ExtendedWell } from '../model/types';
+interface ChartMetrics {
+  totalActual: number;
+  totalPlan: number;
+}
 
-const selectWellQuery = wellApi.endpoints.getWellStream.select();
+export const selectWellQuery = wellApi.endpoints.getWellStream.select();
 
 export const selectFlattenedWells = createSelector([selectWellQuery], (result): ExtendedWell[] => {
   const data = result.data;
@@ -30,6 +34,14 @@ export const selectTop5Wells = createSelector([selectFlattenedWells], (wells): E
   return [...wells].sort((a, b) => b.debit - a.debit).slice(0, 5);
 });
 
+export const selectTop5WithStatus = createSelector(
+  [selectWellQuery, selectTop5Wells],
+  (queryResult, top5) => ({
+    isLoading: queryResult.isLoading,
+    top5,
+  }),
+);
+
 export const selectDashboardMetrics = createSelector(
   [selectFlattenedWells],
   (wells): DashboardMetrics => {
@@ -56,11 +68,6 @@ export const selectDashboardMetrics = createSelector(
   },
 );
 
-interface ChartMetrics {
-  totalActual: number;
-  totalPlan: number;
-}
-
 export const selectChartMetrics = createSelector([selectFlattenedWells], (wells): ChartMetrics => {
   let totalActual = 0;
   for (let i = 0; i < wells.length; i++) {
@@ -71,3 +78,54 @@ export const selectChartMetrics = createSelector([selectFlattenedWells], (wells)
     totalPlan: 65500,
   };
 });
+
+export const selectDashboardWithStatus = createSelector(
+  [selectWellQuery, selectDashboardMetrics],
+  (queryResult, metrics) => ({
+    isLoading: queryResult.isLoading,
+    error: queryResult.error,
+    ...metrics,
+  }),
+);
+
+export const selectChartWithStatus = createSelector(
+  [selectWellQuery, selectChartMetrics],
+  (queryResult, metrics) => ({
+    isLoading: queryResult.isLoading,
+    error: queryResult.error,
+    ...metrics,
+  }),
+);
+
+export const selectFieldProductionData = createSelector([selectWellQuery], (result) => {
+  const data = result.data;
+  if (!data || result.isLoading || result.error) {
+    return { labels: [], values: [], totalDebit: 0 };
+  }
+  const fieldTotals = new Map<string, number>();
+  data.forEach((field) => {
+    const totalDebit = field.clusters
+      .flatMap((c) => c.wells)
+      .reduce((sum, well) => sum + well.debit, 0);
+    fieldTotals.set(field.field, (fieldTotals.get(field.field) || 0) + totalDebit);
+  });
+  const sortedFields = Array.from(fieldTotals.entries()).sort(([, a], [, b]) => b - a);
+  const labels = sortedFields.map(([name]) => name);
+  const values = sortedFields.map(([, value]) => value);
+  const totalDebit = values.reduce((sum, v) => sum + v, 0);
+  return { labels, values, totalDebit };
+});
+
+export const selectFieldProductionWithStatus = createSelector(
+  [selectWellQuery, selectFieldProductionData],
+  (queryResult, data) => ({
+    isLoading: queryResult.isLoading,
+    error: queryResult.error,
+    ...data,
+  }),
+);
+
+export const selectWellTableStatus = createSelector([selectWellQuery], (result) => ({
+  isLoading: result.isLoading,
+  error: result.error,
+}));

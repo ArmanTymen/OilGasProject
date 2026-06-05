@@ -1,8 +1,5 @@
-// model/types.ts
-
 export type WellStatus = 'бурение' | 'простой' | 'спо' | 'промывка';
 
-// 1. Базовая сущность Скважины со всеми технологическими параметрами с бэкенда
 export interface Well {
   id: number;
   well: string;
@@ -20,33 +17,28 @@ export interface Well {
   nominalFlowRate?: number;
 }
 
-// 2. Куст, содержащий массив скважин
 export interface Cluster {
   id: number;
   cluster: string;
   wells: Well[];
 }
 
-// 3. Месторождение (Древовидная структура с бэкенда)
 export interface WellData {
   id: number;
   field: string;
   clusters: Cluster[];
 }
 
-// 4. Плоская структура для таблицы (наследует Well и добавляет контекст локации)
 export interface ExtendedWell extends Well {
   fieldName: string;
   clusterName: string;
 }
 
-// 5. Структура для выбранной на карте скважины (используется в модальном окне)
 export interface SelectedWellExtended extends Well {
   fieldName: string;
   clusterName: string;
 }
 
-// 6. Метрики для дашборда
 export interface DashboardMetrics {
   totalActual: number;
   activeCount: number;
@@ -57,8 +49,6 @@ export interface ProductionAnalytics {
   totalActual: number;
   totalPlan: number;
 }
-
-// --- Типы для стрима Бурения (getDrillingStream) ---
 
 export interface IDrillingLimits {
   maxPumpPressure: number;

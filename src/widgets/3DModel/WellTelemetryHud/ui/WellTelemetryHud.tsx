@@ -5,7 +5,6 @@ interface WellTelemetryHudProps {
   onOpenModal: () => void;
   wellsCount: number;
   isTablet?: boolean;
-  isMobile?: boolean;
 }
 
 export const WellTelemetryHud = ({
@@ -13,11 +12,9 @@ export const WellTelemetryHud = ({
   onOpenModal,
   wellsCount,
   isTablet,
-  isMobile,
 }: WellTelemetryHudProps) => {
   const isPressureExceeded = activeWell.pumpPressure > activeWell.limits.maxPumpPressure;
 
-  if (isMobile) return null;
   if (isTablet) {
     return (
       <div className={s.hudOverlayTablet}>

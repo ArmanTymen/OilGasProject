@@ -8,12 +8,21 @@ import { WellSelectionModal } from '@/features/well-selection/WellSelectionModal
 import { useGetDrillingStreamQuery } from '@/entities/well';
 import { useMediaQuery } from 'react-responsive';
 import { MobileWellSchema } from '@/widgets/3DModel/MobileWellSchema';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Model3D = () => {
+  const { wellId: wellIdParam } = useParams<{ wellId: string }>();
+  const navigate = useNavigate();
+
   const { data: wells = [], isLoading } = useGetDrillingStreamQuery();
-  const [selectedWellId, setSelectedWellId] = useState<number>(2001);
+  const selectedWellId = wellIdParam ? Number(wellIdParam) : 2001;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const drillStringRef = useRef<THREE.Group>(null);
+
+  const handleSelectWell = (id: number) => {
+    navigate(`/model/${id}`, { replace: true });
+    setIsModalOpen(false);
+  };
 
   const activeWell = wells.find((w) => w.id === selectedWellId);
 
@@ -32,7 +41,6 @@ const Model3D = () => {
           onOpenModal={() => setIsModalOpen(true)}
           wellsCount={wells.length}
           isTablet={isTablet}
-          isMobile={isMobile}
         />
       )}
 
@@ -69,7 +77,7 @@ const Model3D = () => {
           wells={wells}
           selectedWellId={selectedWellId}
           onClose={() => setIsModalOpen(false)}
-          onSelectWell={setSelectedWellId}
+          onSelectWell={handleSelectWell}
         />
       )}
     </div>

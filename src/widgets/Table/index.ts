@@ -1,1 +1,1 @@
-export { default as WellTable } from './ui/WellTable/WellTable';
+export { WellTable } from './ui/WellTable/WellTable';

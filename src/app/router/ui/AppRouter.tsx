@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { lazy } from 'react';
 import { Layout } from '@/widgets/Layout';
-import { HomePage } from '@/pages/HomePage';
-import { TablePage } from '@/pages/TablePage';
-import { ChartPage } from '@/pages/ChartPage';
-import { Model2DMap } from '@/pages/Model2DMap';
-import { Model3D } from '@/pages/Model3DPage';
-import { NotFoundPage } from '@/pages/NotFoundPage';
+
+const HomePage = lazy(() => import('@/pages/HomePage'));
+const TablePage = lazy(() => import('@/pages/TablePage'));
+const ChartPage = lazy(() => import('@/pages/ChartPage'));
+const Model2DMap = lazy(() => import('@/pages/Model2DMap'));
+const Model3D = lazy(() => import('@/pages/Model3DPage'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
 function AppRouter() {
   return (
